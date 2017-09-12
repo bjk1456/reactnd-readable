@@ -7,10 +7,11 @@
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
-    "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
     "react-scripts": "1.0.13",
-    "reactstrap": "^4.8.0"
+    "reactstrap": "^4.8.0",
+    "classnames": "^2.2.5",
+    "prop-types-extra": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
