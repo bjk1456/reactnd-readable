@@ -1,12 +1,14 @@
 import React from 'react'
 import { Button } from 'reactstrap';
 import TextareaAutosize from 'react-autosize-textarea';
+import { connect } from 'react-redux'
+import { addPost } from '../actions'
 
 
 class CreatePost extends React.Component {
 	constructor(props) {
     super(props)
-    this.handlePostSubmit = this.handlePostSubmit.bind(this)
+    //this.handlePostSubmit = this.handlePostSubmit.bind(this)
 }
   state = {
     title: "",
@@ -21,7 +23,7 @@ class CreatePost extends React.Component {
     borderRadius: 4,
     fontSize: 15
   }
-  
+  /**
   handlePostSubmit() {
   var emptyFld = false;
   var msg = ""
@@ -42,6 +44,7 @@ class CreatePost extends React.Component {
   	window.alert("MISSING FIELDS: " + msg)
   }
   }
+  */
 
   handleTitle(e) {
   	console.log("The e is ", e)
@@ -59,6 +62,7 @@ class CreatePost extends React.Component {
   }
 
   render() {
+  	const { handlePostSubmit } = this.props
     return (
    <fieldset>
     <legend>Post:</legend>
@@ -73,10 +77,26 @@ class CreatePost extends React.Component {
           this.handleBody(event.target.value)}
       value={this.state.body}
       placeholder="What's on your mind? Post it here."/><br/>
-     <Button onClick={this.handlePostSubmit}>Submit</Button>
+     <Button onClick={handlePostSubmit}>Submit</Button>
     </fieldset>
   )
   }
 }
 
-export default CreatePost
+function mapStateToProps ({ post }) {
+  return {
+  	post
+  };
+}
+function mapDispatchToProps (dispatch) {
+  return {
+    handlePostSubmit: (data) => dispatch(addPost(data))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreatePost)
+
+//export default CreatePost
