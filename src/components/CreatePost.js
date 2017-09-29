@@ -43,10 +43,9 @@ class CreatePost extends React.Component {
   if(emptyFld) {
   	window.alert("MISSING FIELDS: " + msg)
   }
-  //createPost({ title: this.state.title, author: this.state.author, body: this.state.body })
+  this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body })
   }
   
-
   handleTitle(e) {
   	console.log("The e is ", e)
     this.setState({title: e})
@@ -63,7 +62,6 @@ class CreatePost extends React.Component {
   }
 
   render() {
-  	const { submitPost } = this.props
     return (
    <fieldset>
     <legend>Post:</legend>
@@ -95,10 +93,10 @@ function mapDispatchToProps (dispatch) {
     submitPost: (data) => dispatch(addPost(data))
   }
 }
-/**
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(CreatePost)
-*/
-export default CreatePost
+
+//export default CreatePost
