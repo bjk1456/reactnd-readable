@@ -3,11 +3,13 @@ import { Button } from 'reactstrap';
 import TextareaAutosize from 'react-autosize-textarea';
 import { connect } from 'react-redux'
 import { addPost } from '../actions'
+import * as PostsAPI from '../utils/PostsAPI'
 
 
 class CreatePost extends React.Component {
 	constructor(props) {
     super(props)
+    this.setState({inputVal: {}});
     this.handlePostSubmit = this.handlePostSubmit.bind(this)
 }
   state = {
@@ -43,7 +45,18 @@ class CreatePost extends React.Component {
   if(emptyFld) {
   	window.alert("MISSING FIELDS: " + msg)
   }
-  this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body })
+  const uuidv4 = require('uuid/v4');
+  var date = Date.now();
+  var id = uuidv4();
+  this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body, id: id, timestamp: date });
+  PostsAPI.post(this.state.title, this.state.author, this.state.body, id, date).then(() => {
+  })
+  
+  this.setState({
+    title: "",
+    author: "",
+    body: "",
+  });
   }
   
   handleTitle(e) {

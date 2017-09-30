@@ -5,7 +5,7 @@ import {
 } from '../actions'
 
 function post (state = {}, action) {
-  const { title, author, body } = action
+  const { title, author, body, id, timestamp } = action
   switch (action.type) {
     case ADD_POST :
       return {
@@ -13,6 +13,8 @@ function post (state = {}, action) {
         [title] : {
         	author,
         	body,
+        	id,
+            timestamp,
         }
       }
       default :
