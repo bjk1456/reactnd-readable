@@ -3,15 +3,21 @@ import { Button } from 'reactstrap';
 import TextareaAutosize from 'react-autosize-textarea';
 import { connect } from 'react-redux'
 import { addPost } from '../actions'
+import PropTypes from 'prop-types'
 import * as PostsAPI from '../utils/PostsAPI'
 
 
 class CreatePost extends React.Component {
 	constructor(props) {
     super(props)
-    this.setState({inputVal: {}});
     this.handlePostSubmit = this.handlePostSubmit.bind(this)
 }
+static propTypes = {
+    category: PropTypes.string
+  }
+
+  //const { cateogry } = this.props
+
   state = {
     title: "",
     author: "",
@@ -48,8 +54,8 @@ class CreatePost extends React.Component {
   const uuidv4 = require('uuid/v4');
   var date = Date.now();
   var id = uuidv4();
-  this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body, id: id, timestamp: date });
-  PostsAPI.post(this.state.title, this.state.author, this.state.body, id, date).then(() => {
+  this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body, id: id, timestamp: date, category: this.props.category });
+  PostsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {
   })
   
   this.setState({
@@ -60,17 +66,14 @@ class CreatePost extends React.Component {
   }
   
   handleTitle(e) {
-  	console.log("The e is ", e)
     this.setState({title: e})
   }
 
   handleAuthor(e) {
-  	console.log("The e is ", e);
     this.setState({author: e})
   }
 
   handleBody(e) {
-  	console.log("The e is ", e);
     this.setState({body: e})
   }
 
