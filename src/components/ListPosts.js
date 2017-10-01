@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import ListCats from './ListCats'
 import Post from './Post'
 import CreatePost from './CreatePost'
+import { connect } from 'react-redux'
+import { addPost } from '../actions'
 import '.././App.css';
 import * as PostsAPI from '../utils/PostsAPI'
 
@@ -14,13 +16,16 @@ import {
   Button
 } from 'reactstrap';
 
-export default class ListPosts extends React.Component {
+class ListPosts extends React.Component {
 
   componentDidMount(){
   	PostsAPI.getPostsCategory(this.props.match.params.cat).then((posts) => {
   	  if(posts !== undefined) {
+
   	    posts.map((post, None) =>
-  	  	  console.log("The post is " + post))
+  	  	  //console.log("The post is " + post['body'])
+  	      this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'] }))
+
   	}})
 
       /**
@@ -40,3 +45,18 @@ export default class ListPosts extends React.Component {
     	 </div>
   )}
   }
+function mapStateToProps ({ post }) {
+  return {
+  	post
+  };
+}
+function mapDispatchToProps (dispatch) {
+  return {
+    submitPost: (data) => dispatch(addPost(data))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListPosts)
