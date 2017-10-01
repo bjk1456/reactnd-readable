@@ -17,26 +17,28 @@ import {
 } from 'reactstrap';
 
 class ListPosts extends React.Component {
+ 
 
   componentDidMount(){
-  	PostsAPI.getPostsCategory(this.props.match.params.cat).then((posts) => {
-  	  if(posts !== undefined) {
+  	//this.props.loadPosts(this.props.match.params.cat);
+  	console.log("mapStateToProps ", this.props.posts)
+  	/**
+  	this.props.posts.map((post) => {
+  		console.log("DUH post is ... ", post)
+  	})
+  	*/
 
-  	    posts.map((post, None) =>
-  	  	  //console.log("The post is " + post['body'])
-  	      this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'] }))
-
-  	}})
-
-      /**
-      cats.map((cat, None) => {
-        this.setState({cats: this.state.cats.concat( cat )})
-    })})
-    */
   }
 
   render() {
+  	console.log("Inside of ListPosts.js")
   	console.log(this.props.match.params.cat)
+  	//console.log("mapStateToProps ", this.state.post)
+  	/**
+  	if(this.state.posts) {
+  	  console.log("mapStateToProps ", this.state.posts)
+  	}
+  	*/
     return (
     	<div className='list-posts'>
     	<h1>Archives ({this.props.match.params.cat})</h1>
@@ -45,11 +47,11 @@ class ListPosts extends React.Component {
     	 </div>
   )}
   }
-function mapStateToProps ({ post }) {
-  return {
-  	post
-  };
+
+function mapStateToProps(state) {
+   return { posts: state.post };
 }
+
 function mapDispatchToProps (dispatch) {
   return {
     submitPost: (data) => dispatch(addPost(data))
