@@ -3,8 +3,9 @@ import { Link, Route } from 'react-router-dom'
 import logo from './logo.svg';
 import ListCats from './ListCats'
 import Post from './Post'
-import CatView from './CatView'
-import CreatePost from './CreatePost'
+import ListPosts from './ListPosts'
+import { connect } from 'react-redux'
+import { addPost } from '../actions'
 import '.././App.css';
 import * as PostsAPI from '../utils/PostsAPI'
 
@@ -23,6 +24,15 @@ class App extends React.Component {
   componentDidMount(){
     PostsAPI.getCats().then((cats) => {
       this.setState({cats})})
+
+    console.log("INSIDE OF APP.JS!!!!!!!!")
+    PostsAPI.getAllPosts().then((posts) => {
+      console.log("The posts are ", posts)
+      posts.map((post) => {
+        console.log("The post is ", post)
+        this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'] })
+      })
+    })
 
       /**
       cats.map((cat, None) => {
@@ -51,8 +61,11 @@ class App extends React.Component {
     
 <div>
      <ListCats cats={this.state.cats} selectCategory={this.selectCategory} selectedCat={this.state.selectedCat}/>
-     <CreatePost/>
-     <Route path="/category/:cat" component={CatView}/>
+     
+    
+     
+     <Route path="/category/:cat" component={ListPosts}/>
+     
      
       <Route path="/" render ={() => (
 
@@ -89,4 +102,20 @@ class App extends React.Component {
   }
 }
 
-export default App;
+//export default App;
+
+function mapStateToProps(state) {
+   return { posts: state.post };
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    submitPost: (data) => dispatch(addPost(data))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
