@@ -23,34 +23,51 @@ class ListPosts extends React.Component {
   }
 
   render() {
-    var matchFound = false;
-    var matches = []
-    if (this.props.posts) {
+    var dsplyPosts = false;
+    var fetchAllPosts = false;
+    var postsToDsply = []
+    console.log("Inside of ListPosts.js ... render() ... this.props.match.url == ", this.props);
+
+
+
+    if((this.props.match.params.cat) && (this.props.match.params.cat != "all")) {
+      console.log("Inside of ListPosts.js ... and his.props.match.params.cat == ", this.props.match.params.cat);
+      if (this.props.posts) {
       var match = null;
       for(var key in this.props.posts) {
         var pCat = this.props.posts[key]['category'];
         if(pCat === this.props.match.params.cat) {
-          matchFound = true;
+          dsplyPosts = true;
           var match = this.props.posts[key]
           match.title = key
-          matches.push(match)
+          postsToDsply.push(match)
         }
     }
   }
-    if (matchFound) {
+    }
+    else if (this.props.match.params.cat === "all") {
+      for(var key in this.props.posts) {
+        var post = this.props.posts[key];
+        post.title = key
+        postsToDsply.push(post)
+        dsplyPosts = true
+    }
+  }
+
+    if (dsplyPosts) {
     return (
 
       <div className='list-posts'>
       <ul class="list-unstyled">
-      {matches.map((match) => (
+      {postsToDsply.map((post) => (
        <li class="media">
          <img src={require('./pyle1.jpg')} />
          
-        <h5 class="mt-0 mb-1">{match.title}</h5>
+        <h5 class="mt-0 mb-1">{post.title}</h5>
 
-        <h9 class="mt-0 mb-2">Author: {match.author}</h9>
+        <h9 class="mt-0 mb-2">Author: {post.author}</h9>
         <div class="media-body">
-        {match.body}
+        {post.body}
        </div>
         </li>
         ))}
@@ -60,9 +77,9 @@ class ListPosts extends React.Component {
        <CreatePost category={this.props.match.params.cat}/>
        </div>
   )}
-   else {
+  else {
     return (null)
-  } } 
+  } }
 }
 
 function mapStateToProps(state, props) {

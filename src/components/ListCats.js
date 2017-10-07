@@ -47,7 +47,7 @@ class ListCats extends Component {
     <ButtonGroup>
     {cats.map((cat) => (
     	
-    	<Link to={cat.path} >
+    	<Link to={"/category/" + cat.path} >
       <Button key={cat.name} id={cat.name} color="primary" onClick={() => selectCategory({cat})} active={cat.name === selectedCat}>{cat.name}</Button>
       </Link>
   ))}

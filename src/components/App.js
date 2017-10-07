@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom'
+import { Link, Route, Redirect } from 'react-router-dom'
 import logo from './logo.svg';
 import ListCats from './ListCats'
 import Post from './Post'
@@ -37,10 +37,9 @@ class App extends React.Component {
     return (
 <div>
      <ListCats cats={this.state.cats} selectCategory={this.selectCategory} selectedCat={this.state.selectedCat}/>
+     <Route path="/"  render={() => (
+      <Redirect to="/category/all"/> )} />
      <Route path="/category/:cat" component={ListPosts}/>
-      <Route path="/" render ={() => (
-      <Link to={'category/udacity'}>TEST</Link>
- )}/>
 </div>
   
     );
