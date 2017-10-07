@@ -40,12 +40,16 @@ export const getPostsCategory = (category) =>
      'Content-Type': 'application/json'
     },
   }).then(res => res.json())
-    .then(data => data.posts)
 
-export const getAll = () =>
-  fetch(`${api}/books`, { headers })
-    .then(res => res.json())
-    .then(data => data.books)
+export const getAllPosts = () =>
+  fetch(`${api}/posts`, { 
+    method: 'GET',
+    headers: {
+     ...headers,
+     'Content-Type': 'application/json'
+    },
+  }).then(res => res.json())
+
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
