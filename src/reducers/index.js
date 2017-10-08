@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
 
+
 import {
   ADD_POST,
 } from '../actions'
 
 function post (state = {}, action) {
-  const { title, author, body, id, timestamp, category } = action
+  const { title, author, body, id, timestamp, category, voteScore } = action
   switch (action.type) {
     case ADD_POST :
       return {
@@ -16,12 +17,14 @@ function post (state = {}, action) {
         	id,
             timestamp,
             category,
+            voteScore,
         }
       }
-      default :
+    default :
         return state
     }
   }
+
 
 export default combineReducers({
   post,

@@ -8,6 +8,9 @@ import { connect } from 'react-redux'
 import { addPost } from '../actions'
 import '.././App.css';
 import * as PostsAPI from '../utils/PostsAPI'
+import { MediaObject, MediaObjectSection } from 'react-foundation';
+import { Thumbnail, ThumbnailLink } from 'react-foundation';
+import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 
 
 import {
@@ -21,6 +24,15 @@ class ListPosts extends React.Component {
   componentDidMount(){
     console.log("Inside of ListPosts.js ... posts are !!!!!!!!!!!!", this.props.posts);
   }
+
+  handleUpVote = (e, post) => {
+    console.log("handleUpVote pressed e == ", e);
+    console.log("e.disabeled === ",e.disabeled)
+    console.log("isItDisabeled??", e.disabeled)
+    post.voteScore += 1
+    console.log("The post is ", post)
+    this.props.submitPost({ post: post })
+    }
 
   render() {
     var dsplyPosts = false;
@@ -45,7 +57,7 @@ class ListPosts extends React.Component {
     }
   }
     }
-    else if (this.props.match.params.cat === "all") {
+    else if (this.props.match.params.cat = "all") {
       for(var key in this.props.posts) {
         var post = this.props.posts[key];
         post.title = key
@@ -60,18 +72,30 @@ class ListPosts extends React.Component {
       <div className='list-posts'>
       <ul class="list-unstyled">
       {postsToDsply.map((post) => (
-       <li class="media">
-         <img src={require('./pyle1.jpg')} />
-         
-        <h5 class="mt-0 mb-1">{post.title}</h5>
+        <li>
+      <MediaObject>
+    <MediaObjectSection>
+      <Thumbnail src={require('./pyle1.jpg')}/>
+    </MediaObjectSection>
+    <MediaObjectSection isMain>
+      <h4>{post.title}</h4>
+      <h6>Author: {post.author}</h6>
+      <p>{post.body}</p>
+    </MediaObjectSection>
+     <MediaObjectSection isBottom>
+       <button
+         className='icon-btn'
 
-        <h9 class="mt-0 mb-2">Author: {post.author}</h9>
-        <div class="media-body">
-        {post.body}
-       </div>
-        </li>
-        ))}
-      </ul>
+         onClick={(event) => 
+         this.handleUpVote(event, post) }>
+         <TiThumbsUp size={30}/>
+       </button>
+    </MediaObjectSection>
+  </MediaObject>
+  </li>
+
+       ))}
+    </ul>
       <h1>Archives ({this.props.match.params.cat})</h1>
 
        <CreatePost category={this.props.match.params.cat}/>

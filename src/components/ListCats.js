@@ -26,7 +26,7 @@ class ListCats extends Component {
       console.log("The posts are ", posts)
       posts.map((post) => {
         console.log("The post is ", post)
-        this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'] })
+        this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'], voteScore: post['voteScore'] })
       })
     })
 

@@ -8,6 +8,9 @@ import { connect } from 'react-redux'
 import { addPost } from '../actions'
 import '.././App.css';
 import * as PostsAPI from '../utils/PostsAPI'
+import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
+import { MediaObject, MediaObjectSection } from 'react-foundation';
+import { Thumbnail, ThumbnailLink } from 'react-foundation';
 
 
 import {

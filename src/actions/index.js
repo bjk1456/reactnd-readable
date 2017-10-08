@@ -1,7 +1,7 @@
 import * as PostsAPI from '../utils/PostsAPI'
 export const ADD_POST = 'ADD_POST'
 
-export function addPost ({ title, author, body, id, timestamp, category }) {
+export function addPost ({ title, author, body, id, timestamp, category, voteScore }) {
   return {
     type: ADD_POST,
     title,
@@ -10,6 +10,7 @@ export function addPost ({ title, author, body, id, timestamp, category }) {
     id,
     timestamp,
     category,
+    voteScore,
   }
 }
 

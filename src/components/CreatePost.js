@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import * as PostsAPI from '../utils/PostsAPI'
 
 
+
 class CreatePost extends React.Component {
 	constructor(props) {
     super(props)
@@ -93,8 +94,8 @@ static propTypes = {
       value={this.state.body}
       placeholder="What's on your mind? Post it here."/><br/>
       <Button onClick={this.handlePostSubmit}>Submit</Button>
-     
     </fieldset>
+	
   )
   }
 }
