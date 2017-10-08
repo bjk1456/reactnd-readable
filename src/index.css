@@ -10,3 +10,14 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+ul {
+    border: 1px solid black;
+}
+
+ul.a {
+    list-style-type: circle;
+}
+
+li {
+    outline: #00FF00 dotted thick;
+}

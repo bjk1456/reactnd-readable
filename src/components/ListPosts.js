@@ -11,6 +11,7 @@ import * as PostsAPI from '../utils/PostsAPI'
 import { MediaObject, MediaObjectSection } from 'react-foundation';
 import { Thumbnail, ThumbnailLink } from 'react-foundation';
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
+import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
 
 
 import {
@@ -26,12 +27,13 @@ class ListPosts extends React.Component {
   }
 
   handleUpVote = (e, post) => {
-    console.log("handleUpVote pressed e == ", e);
-    console.log("e.disabeled === ",e.disabeled)
-    console.log("isItDisabeled??", e.disabeled)
     post.voteScore += 1
-    console.log("The post is ", post)
-    this.props.submitPost({ post: post })
+    this.props.submitPost(post)
+    }
+
+  handleDownVote = (e, post) => {
+    post.voteScore -= 1
+    this.props.submitPost(post)
     }
 
   render() {
@@ -85,10 +87,15 @@ class ListPosts extends React.Component {
      <MediaObjectSection isBottom>
        <button
          className='icon-btn'
-
          onClick={(event) => 
          this.handleUpVote(event, post) }>
          <TiThumbsUp size={30}/>
+       </button>
+      <button
+         className='icon-btn'
+         onClick={(event) => 
+         this.handleDownVote(event, post) }>
+         <TiThumbsDown size={30}/>
        </button>
     </MediaObjectSection>
   </MediaObject>
