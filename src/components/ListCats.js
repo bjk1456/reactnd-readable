@@ -3,8 +3,9 @@ import { Link, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import { connect } from 'react-redux'
-import { addPost } from '../actions'
+import { addPost, changeSort } from '../actions'
 import * as PostsAPI from '../utils/PostsAPI'
+import { Switch } from 'react-foundation';
 
 import {
   ButtonGroup,
@@ -37,6 +38,12 @@ class ListCats extends Component {
     */
   }
 
+  handleChangeSort = (event) => {
+    console.log("handleChangeSort event == ", event)
+    console.log(document.getElementById('selectSort').value);
+    this.props.changeSortMethod({ sortMethod: document.getElementById('selectSort').value })
+    }
+
   render() {
     const { cats, selectedCat, selectCategory } = this.props
     console.log("SELECTED CAT IS ", selectedCat)
@@ -51,10 +58,19 @@ class ListCats extends Component {
       <Button key={cat.name} id={cat.name} color="primary" onClick={() => selectCategory({cat})} active={cat.name === selectedCat}>{cat.name}</Button>
       </Link>
   ))}
-        </ButtonGroup>
+        </ButtonGroup> 
+        <div> 
+        <label>Sort Method:</label>
+        <div>
+          <select id="selectSort" onChange={(event) => 
+         this.handleChangeSort(event) }>
+            <option value="voteScore">Vote Score</option>
+            <option value="timestamp">Time Stamp</option>
+          </select>
+        </div>
+        </div>
+        </div>
 
-   
-  </div>
   )}
   }
 
@@ -70,7 +86,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    submitPost: (data) => dispatch(addPost(data))
+    submitPost: (data) => dispatch(addPost(data)),
+    changeSortMethod: (data) => dispatch(changeSort(data))
   }
 }
 

@@ -1,5 +1,6 @@
 import * as PostsAPI from '../utils/PostsAPI'
 export const ADD_POST = 'ADD_POST'
+export const CHANGE_SORT = 'CHANGE_SORT'
 
 export function addPost ({ title, author, body, id, timestamp, category, voteScore }) {
   return {
@@ -14,11 +15,11 @@ export function addPost ({ title, author, body, id, timestamp, category, voteSco
   }
 }
 
-export function dataInitLoad(bool) {
+export function changeSort ({ sortMethod }) {
     return {
-        type: 'INITIAL_LOAD',
-        initLoad: bool
-    };
+      type: CHANGE_SORT,
+      sortMethod,
+    }
 }
 /**
 export function loadPosts(category) {

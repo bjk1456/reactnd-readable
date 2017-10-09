@@ -69,6 +69,15 @@ class ListPosts extends React.Component {
   }
 
     if (dsplyPosts) {
+      var sortMeth = this.props.sortMethod['sortMethod'];
+      postsToDsply.sort((a,b) => {
+        if (sortMeth === "voteScore") {
+          return b.voteScore - a.voteScore;
+        }
+        if (sortMeth === "timestamp") {
+          return b.timestamp - a.timestamp;
+    }})
+
     return (
 
       <div className='list-posts'>
@@ -115,7 +124,8 @@ class ListPosts extends React.Component {
 
 function mapStateToProps(state, props) {
    return Object.assign({}, props, { 
-    posts: state.post 
+    posts: state.post,
+    sortMethod: state.sort 
   });
 }
 
