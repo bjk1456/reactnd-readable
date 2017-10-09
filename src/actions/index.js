@@ -1,6 +1,7 @@
 import * as PostsAPI from '../utils/PostsAPI'
 export const ADD_POST = 'ADD_POST'
 export const CHANGE_SORT = 'CHANGE_SORT'
+export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export function addPost ({ title, author, body, id, timestamp, category, voteScore }) {
   return {
@@ -19,6 +20,13 @@ export function changeSort ({ sortMethod }) {
     return {
       type: CHANGE_SORT,
       sortMethod,
+    }
+}
+
+export function changeFilter ({ filterCat }) {
+    return {
+      type: CHANGE_FILTER,
+      filterCat,
     }
 }
 /**

@@ -40,9 +40,7 @@ class App extends React.Component {
     return (
 <div>
      <ListCats cats={this.state.cats} selectCategory={this.selectCategory} selectedCat={this.state.selectedCat}/>
-     <Route path="/"  render={() => (
-      <Redirect to="/category/all"/> )} />
-     <Route path="/category/:cat" component={ListPosts}/>
+     <Route path="/" component={ListPosts}/>
 </div>
   
     );

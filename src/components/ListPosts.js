@@ -37,38 +37,14 @@ class ListPosts extends React.Component {
     }
 
   render() {
-    var dsplyPosts = false;
-    var fetchAllPosts = false;
     var postsToDsply = []
-    console.log("Inside of ListPosts.js ... render() ... this.props.match.url == ", this.props);
 
-
-
-    if((this.props.match.params.cat) && (this.props.match.params.cat != "all")) {
-      console.log("Inside of ListPosts.js ... and his.props.match.params.cat == ", this.props.match.params.cat);
-      if (this.props.posts) {
-      var match = null;
-      for(var key in this.props.posts) {
-        var pCat = this.props.posts[key]['category'];
-        if(pCat === this.props.match.params.cat) {
-          dsplyPosts = true;
-          var match = this.props.posts[key]
-          match.title = key
-          postsToDsply.push(match)
-        }
-    }
-  }
-    }
-    else if (this.props.match.params.cat = "all") {
-      for(var key in this.props.posts) {
-        var post = this.props.posts[key];
+    for(var key in this.props.posts) {
+      var post = this.props.posts[key];
         post.title = key
         postsToDsply.push(post)
-        dsplyPosts = true
     }
-  }
-
-    if (dsplyPosts) {
+      console.log("postsToDsply == ", postsToDsply);
       var sortMeth = this.props.sortMethod['sortMethod'];
       postsToDsply.sort((a,b) => {
         if (sortMeth === "voteScore") {
@@ -77,6 +53,12 @@ class ListPosts extends React.Component {
         if (sortMeth === "timestamp") {
           return b.timestamp - a.timestamp;
     }})
+      var filterCat = this.props.filterCategory['filterCat'];
+      if(filterCat !== "none") {
+        console.log("The filter cat is ", filterCat);
+        postsToDsply = postsToDsply.filter((post) => {
+          return post.category === filterCat;
+        })}
 
     return (
 
@@ -116,16 +98,15 @@ class ListPosts extends React.Component {
 
        <CreatePost category={this.props.match.params.cat}/>
        </div>
-  )}
-  else {
-    return (null)
-  } }
+  )
+  }
 }
 
 function mapStateToProps(state, props) {
    return Object.assign({}, props, { 
     posts: state.post,
-    sortMethod: state.sort 
+    sortMethod: state.sort,
+    filterCategory: state.filter,
   });
 }
 

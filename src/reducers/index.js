@@ -4,6 +4,7 @@ import { combineReducers } from 'redux'
 import {
   ADD_POST,
   CHANGE_SORT,
+  CHANGE_FILTER,
 } from '../actions'
 
 function post (state = {}, action) {
@@ -39,7 +40,21 @@ function sort (state = {sortMethod: "voteScore"}, action) {
  }
 }
 
+function filter (state = {filterCat: "none"}, action) {
+  const { filterCat } = action
+  switch (action.type) {
+    case CHANGE_FILTER :
+     return {
+     	...state,
+     	  filterCat,   
+     }
+ default :
+  return state;
+ }
+}
+
 export default combineReducers({
   post,
   sort,
+  filter,
 })

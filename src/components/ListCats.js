@@ -3,7 +3,7 @@ import { Link, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import { connect } from 'react-redux'
-import { addPost, changeSort } from '../actions'
+import { addPost, changeSort, changeFilter } from '../actions'
 import * as PostsAPI from '../utils/PostsAPI'
 import { Switch } from 'react-foundation';
 
@@ -30,18 +30,14 @@ class ListCats extends Component {
         this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'], voteScore: post['voteScore'] })
       })
     })
-
-      /**
-      cats.map((cat, None) => {
-        this.setState({cats: this.state.cats.concat( cat )})
-    })})
-    */
   }
 
   handleChangeSort = (event) => {
-    console.log("handleChangeSort event == ", event)
-    console.log(document.getElementById('selectSort').value);
     this.props.changeSortMethod({ sortMethod: document.getElementById('selectSort').value })
+    }
+
+  handleFilterCategory = (cat) => {
+    this.props.changeFilterCategory({ filterCat: cat['cat']['name'] })
     }
 
   render() {
@@ -51,12 +47,11 @@ class ListCats extends Component {
     return (
             <div className="ListCats">
     {/* Standard button */}
+    <div> 
+    <label>Categories:</label>
     <ButtonGroup>
     {cats.map((cat) => (
-    	
-    	<Link to={"/category/" + cat.path} >
-      <Button key={cat.name} id={cat.name} color="primary" onClick={() => selectCategory({cat})} active={cat.name === selectedCat}>{cat.name}</Button>
-      </Link>
+      <Button key={cat.name} id={cat.name} color="primary" onClick={(event) => this.handleFilterCategory({cat})} active={cat.name === selectedCat}>{cat.name}</Button>
   ))}
         </ButtonGroup> 
         <div> 
@@ -67,6 +62,7 @@ class ListCats extends Component {
             <option value="voteScore">Vote Score</option>
             <option value="timestamp">Time Stamp</option>
           </select>
+        </div>
         </div>
         </div>
         </div>
@@ -87,7 +83,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps (dispatch) {
   return {
     submitPost: (data) => dispatch(addPost(data)),
-    changeSortMethod: (data) => dispatch(changeSort(data))
+    changeSortMethod: (data) => dispatch(changeSort(data)),
+    changeFilterCategory: (data) => dispatch(changeFilter(data))
   }
 }
 
