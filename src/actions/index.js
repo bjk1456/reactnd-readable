@@ -3,7 +3,7 @@ export const ADD_POST = 'ADD_POST'
 export const CHANGE_SORT = 'CHANGE_SORT'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
-export function addPost ({ title, author, body, id, timestamp, category, voteScore }) {
+export function addPost ({ title, author, body, id, timestamp, category, voteScore, deleted }) {
   return {
     type: ADD_POST,
     title,
@@ -13,6 +13,7 @@ export function addPost ({ title, author, body, id, timestamp, category, voteSco
     timestamp,
     category,
     voteScore,
+    deleted,
   }
 }
 

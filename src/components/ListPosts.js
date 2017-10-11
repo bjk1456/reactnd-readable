@@ -7,12 +7,12 @@ import CreatePost from './CreatePost'
 import { connect } from 'react-redux'
 import { addPost } from '../actions'
 import '.././App.css';
-import * as PostsAPI from '../utils/PostsAPI'
+import * as PostsAPI from '../utils/PostsAPI';
 import { MediaObject, MediaObjectSection } from 'react-foundation';
 import { Thumbnail, ThumbnailLink } from 'react-foundation';
-import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
-import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
-
+import TiThumbsUp from 'react-icons/lib/ti/thumbs-up';
+import TiThumbsDown from 'react-icons/lib/ti/thumbs-down';
+import TiDelete from 'react-icons/lib/ti/delete';
 
 import {
   Media,
@@ -29,20 +29,37 @@ class ListPosts extends React.Component {
   handleUpVote = (e, post) => {
     post.voteScore += 1
     this.props.submitPost(post)
+    PostsAPI.vote(post.id, "upVote").then(() => {
+  })
     }
 
   handleDownVote = (e, post) => {
     post.voteScore -= 1
     this.props.submitPost(post)
+    PostsAPI.vote(post.id, "downVote").then(() => {
+  })
+    }
+
+  handleDelete = (e, post) => {
+    post.deleted = "true";
+    this.props.submitPost(post)
+    PostsAPI.deletePost(post.id).then(() => {
+    })
     }
 
   render() {
     var postsToDsply = []
+    var hmnRdDate = new Date();
 
-    for(var key in this.props.posts) {
+    for(var key in this.props.posts){
+      console.log("Inside of ListPosts.js for loop ... key == ", key)
       var post = this.props.posts[key];
         post.title = key
-        postsToDsply.push(post)
+        if(post.deleted === false) {
+          hmnRdDate.setTime(post.timestamp * 1000);
+          post.hmnRdDate = hmnRdDate.toUTCString();
+          postsToDsply.push(post);
+        }
     }
       console.log("postsToDsply == ", postsToDsply);
       var sortMeth = this.props.sortMethod['sortMethod'];
@@ -59,6 +76,8 @@ class ListPosts extends React.Component {
         postsToDsply = postsToDsply.filter((post) => {
           return post.category === filterCat;
         })}
+
+        console.log("Inside of ListPosts.js ... postsToDsply == ", postsToDsply)
 
     return (
 
@@ -89,6 +108,15 @@ class ListPosts extends React.Component {
          <TiThumbsDown size={30}/>
        </button>
        <label>Total Score: {post.voteScore} </label>
+       <div>
+       <button
+         className='icon-btn'
+         onClick={(event) => 
+         this.handleDelete(event, post) }>
+         <TiDelete size={30}/>
+       </button>
+       <label>timestamp: {post.hmnRdDate}</label>
+       </div>
        <div>
          <Link to={"post/" + post.id}>View Comments/Edit</Link>
        </div>

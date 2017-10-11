@@ -8,7 +8,7 @@ import {
 } from '../actions'
 
 function post (state = {}, action) {
-  const { title, author, body, id, timestamp, category, voteScore, sorting } = action
+  const { title, author, body, id, timestamp, category, voteScore, sorting, deleted } = action
   switch (action.type) {
     case ADD_POST :
       return {
@@ -20,6 +20,7 @@ function post (state = {}, action) {
             timestamp,
             category,
             voteScore,
+            deleted,
         }
       }
     default :
