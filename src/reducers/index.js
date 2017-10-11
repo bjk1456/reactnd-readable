@@ -40,7 +40,7 @@ function sort (state = {sortMethod: "voteScore"}, action) {
  }
 }
 
-function filter (state = {filterCat: "none"}, action) {
+function filter (state = {filterCat: "all"}, action) {
   const { filterCat } = action
   switch (action.type) {
     case CHANGE_FILTER :

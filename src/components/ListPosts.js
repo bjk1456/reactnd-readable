@@ -28,12 +28,12 @@ class ListPosts extends React.Component {
 
   handleUpVote = (e, post) => {
     post.voteScore += 1
-    //this.props.submitPost(post)
+    this.props.submitPost(post)
     }
 
   handleDownVote = (e, post) => {
     post.voteScore -= 1
-    //this.props.submitPost(post)
+    this.props.submitPost(post)
     }
 
   render() {
@@ -88,6 +88,7 @@ class ListPosts extends React.Component {
          this.handleDownVote(event, post) }>
          <TiThumbsDown size={30}/>
        </button>
+       <label>Total Score: {post.voteScore} </label>
        <div>
          <Link to={"post/" + post.id}>View Comments/Edit</Link>
        </div>
