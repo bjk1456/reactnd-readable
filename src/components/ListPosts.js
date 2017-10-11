@@ -28,12 +28,12 @@ class ListPosts extends React.Component {
 
   handleUpVote = (e, post) => {
     post.voteScore += 1
-    this.props.submitPost(post)
+    //this.props.submitPost(post)
     }
 
   handleDownVote = (e, post) => {
     post.voteScore -= 1
-    this.props.submitPost(post)
+    //this.props.submitPost(post)
     }
 
   render() {
@@ -54,7 +54,7 @@ class ListPosts extends React.Component {
           return b.timestamp - a.timestamp;
     }})
       var filterCat = this.props.filterCategory['filterCat'];
-      if(filterCat !== "none") {
+      if(filterCat !== "all") {
         console.log("The filter cat is ", filterCat);
         postsToDsply = postsToDsply.filter((post) => {
           return post.category === filterCat;
@@ -88,6 +88,9 @@ class ListPosts extends React.Component {
          this.handleDownVote(event, post) }>
          <TiThumbsDown size={30}/>
        </button>
+       <div>
+         <Link to={"post/" + post.id}>View Comments/Edit</Link>
+       </div>
     </MediaObjectSection>
   </MediaObject>
   </li>
@@ -96,11 +99,11 @@ class ListPosts extends React.Component {
     </ul>
       <h1>Archives ({this.props.match.params.cat})</h1>
 
-       <CreatePost category={this.props.match.params.cat}/>
+       
        </div>
   )
   }
-}
+  }
 
 function mapStateToProps(state, props) {
    return Object.assign({}, props, { 

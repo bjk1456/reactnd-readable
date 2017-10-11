@@ -9,20 +9,69 @@ import * as PostsAPI from '../utils/PostsAPI'
 
 
 class CreatePost extends React.Component {
-	constructor(props) {
+  static propTypes = {
+    postId: PropTypes.string,
+    editPost: PropTypes.bool
+  }
+
+  constructor(props) {
+  	console.log()
     super(props)
     this.handlePostSubmit = this.handlePostSubmit.bind(this)
 }
+/**
 static propTypes = {
     category: PropTypes.string
   }
+*/
+  componentDidMount(){
+    console.log("Inside of CreatePost.js .... componentDIDMount()")
+      	const {editPost, postId} = this.props;
+  	console.log("Create Post ... componentWillReceiveProps");
+  	console.log("Inside of CreatePost.js ... editPost == ", editPost);
+  	console.log("Inside of CreatePost.js ... postId == ", postId);
+  	
+  	if (editPost) {
+  	  console.log("!!!! Inside of CreatePost.js ... editPost == ", editPost);
+  	  console.log("!!!! postId == ", postId);
+  	  for(var key in this.props.posts) {
+	      if (this.props.posts[key]['id'] === postId){
+	        var post = this.props.posts[key];
+	        post.title = key
+	        console.log("INSIDE OF CreatePost.js ... The post is ", post)
+	        this.setState({title: post.title})
+	        this.setState({author: post.author})
+	        this.setState({body: post.body})
+	        this.setState({id: post.id})
+	    }
+  }
+  }
+  }
+  componentWillReceiveProps(newProps){
+    console.log("Inside of CreatePost.js ... componentWillReceiveProps() ... newProps = ", newProps);
+    if(newProps.postId === this.state.id) {
+      for(var key in newProps.posts) {
+	      if (newProps.posts[key]['id'] === this.state.id){
+	        var post = newProps.posts[key];
+	        post.title = key
+	        console.log("INSIDE OF CreatePost.js ... componentWillReceiveProps(newProps) ... The post is ", post)
+	        this.setState({title: post.title})
+	        this.setState({author: post.author})
+	        this.setState({body: post.body})
+	        this.setState({id: post.id})
+	    }
+  }
+    }
 
+  
+  }
   //const { cateogry } = this.props
 
   state = {
     title: "",
     author: "",
     body: "",
+    id: "",
   }
 
  textareaStyle = {
@@ -54,7 +103,8 @@ static propTypes = {
   }
   const uuidv4 = require('uuid/v4');
   var date = Date.now();
-  var id = uuidv4();
+  var id = null;
+  this.state.id ? id = this.state.id : id = uuidv4();
   this.props.submitPost({ title: this.state.title, author: this.state.author, body: this.state.body, id: id, timestamp: date, category: this.props.category });
   PostsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {
   })
@@ -79,6 +129,8 @@ static propTypes = {
   }
 
   render() {
+  	
+
     return (
    <fieldset>
     <legend>Post:</legend>
@@ -100,11 +152,12 @@ static propTypes = {
   }
 }
 
-function mapStateToProps ({ post }) {
-  return {
-  	post
-  };
+function mapStateToProps(state, props) {
+   return Object.assign({}, props, { 
+    posts: state.post,
+  });
 }
+
 function mapDispatchToProps (dispatch) {
   return {
     submitPost: (data) => dispatch(addPost(data))

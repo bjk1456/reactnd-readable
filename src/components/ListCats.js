@@ -20,9 +20,9 @@ class ListCats extends Component {
     selectCategory: PropTypes.func.isRequired
   }
 
-    componentDidMount(){
+  componentDidMount(){
     
-    console.log("INSIDE OF APP.JS!!!!!!!!")
+    console.log("INSIDE OF LISTCAT.JS!!!!!!!! ... componentWillReceiveProps")
     PostsAPI.getAllPosts().then((posts) => {
       console.log("The posts are ", posts)
       posts.map((post) => {
