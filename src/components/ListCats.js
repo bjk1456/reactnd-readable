@@ -57,11 +57,14 @@ class ListCats extends Component {
         <div> 
         <label>Sort Method:</label>
         <div>
+        <Link to="/createPost">Create Post</Link> 
+        <div>
           <select id="selectSort" onChange={(event) => 
          this.handleChangeSort(event) }>
             <option value="voteScore">Vote Score</option>
             <option value="timestamp">Time Stamp</option>
           </select>
+        </div>
         </div>
         </div>
         </div>

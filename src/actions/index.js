@@ -2,6 +2,7 @@ import * as PostsAPI from '../utils/PostsAPI'
 export const ADD_POST = 'ADD_POST'
 export const CHANGE_SORT = 'CHANGE_SORT'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
+export const ADD_COMMENT = 'ADD_COMMENT'
 
 export function addPost ({ title, author, body, id, timestamp, category, voteScore, deleted }) {
   return {
@@ -14,6 +15,22 @@ export function addPost ({ title, author, body, id, timestamp, category, voteSco
     category,
     voteScore,
     deleted,
+  }
+}
+
+export function addComment ({ title, author, body, id, timestamp, category, voteScore, deleted, parentDeleted, parentId, }) {
+  return {
+    type: ADD_COMMENT,
+    title,
+    author,
+    body,
+    id,
+    timestamp,
+    category,
+    voteScore,
+    deleted,
+    parentDeleted,
+    parentId,
   }
 }
 

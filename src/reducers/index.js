@@ -5,6 +5,7 @@ import {
   ADD_POST,
   CHANGE_SORT,
   CHANGE_FILTER,
+  ADD_COMMENT,
 } from '../actions'
 
 function post (state = {}, action) {
@@ -21,6 +22,29 @@ function post (state = {}, action) {
             category,
             voteScore,
             deleted,
+        }
+      }
+    default :
+        return state;
+    }
+  }
+
+ function comment (state = {}, action) {
+  const { title, author, body, id, timestamp, category, voteScore, sorting, deleted, parentDeleted, parentId } = action
+  switch (action.type) {
+    case ADD_COMMENT :
+      return {
+        ...state,
+        [id] : {
+        	author,
+        	body,
+            timestamp,
+            category,
+            voteScore,
+            deleted,
+            parentDeleted,
+            parentId,
+            id,
         }
       }
     default :
@@ -58,4 +82,5 @@ export default combineReducers({
   post,
   sort,
   filter,
+  comment,
 })

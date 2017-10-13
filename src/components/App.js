@@ -5,6 +5,7 @@ import ListCats from './ListCats'
 import Post from './Post'
 import ListPosts from './ListPosts'
 import PostDetail from './PostDetail'
+import CreatePost from './CreatePost'
 import { addPost } from '../actions'
 import '.././App.css';
 import * as PostsAPI from '../utils/PostsAPI'
@@ -41,7 +42,10 @@ class App extends React.Component {
 <div>
      <ListCats cats={this.state.cats} selectCategory={this.selectCategory} selectedCat={this.state.selectedCat}/>
      <Route exact path="/" selectedCat={this.state.selectedCat} component={ListPosts} />
+     <Route exact path="/createPost" component={CreatePost} />
+      <Route exact path="/createComment" component={CreatePost} />
      <Route exact path="/post/:postId" component={PostDetail}/>
+     <Route exact path="/post/comment/:commentId" component={PostDetail}/>
 </div>
   
     );

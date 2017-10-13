@@ -32,6 +32,16 @@ export const post = (title, author, body, id, timestamp, category) =>
     body: JSON.stringify({ title, author, body, id, timestamp, category })
   }).then(res => res.json())
 
+export const comment = (parentId, author, body, id, timestamp) =>
+  fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ parentId, author, body, id, timestamp })
+  }).then(res => res.json())
+
 export const getPostsCategory = (category) =>
   fetch(`${api}/${category}/posts`, {
     method: 'GET',
@@ -50,8 +60,8 @@ export const getAllPosts = () =>
     },
   }).then(res => res.json())
 
-export const vote = (id, option) =>
-  fetch(`${api}/posts/${id}`, {
+export const vote = (id, readType, option) =>
+  fetch(`${api}/${readType}/${id}`, {
     method: 'POST',
     headers: {
      ...headers,
@@ -60,8 +70,8 @@ export const vote = (id, option) =>
     body: JSON.stringify({ option })
   }).then(res => res.json())
 
-export const deletePost = (id) =>
-  fetch(`${api}/posts/${id}`, {
+export const deleteRead = (id, readType) =>
+  fetch(`${api}/${readType}/${id}`, {
     method: 'DELETE',
     headers: {
      ...headers,
@@ -69,23 +79,31 @@ export const deletePost = (id) =>
     },
   }).catch(error => console.log(error));
 
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
-    method: 'PUT',
+export const getCommentsPost = (postId) =>
+  fetch(`${api}/posts/${postId}/comments`, {
+    method: 'GET',
     headers: {
-      ...headers,
-      'Content-Type': 'application/json'
+     ...headers,
+     'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ shelf })
   }).then(res => res.json())
 
-export const search = (query, maxResults) =>
-  fetch(`${api}/search`, {
-    method: 'POST',
+export const updatePost = (id, title, body) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'PUT',
     headers: {
-      ...headers,
-      'Content-Type': 'application/json'
+     ...headers,
+     'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ query, maxResults })
-  }).then(res => res.json())
-    .then(data => data.books)
+    body: JSON.stringify({ title, body })
+  }).catch(error => console.log(error));
+
+export const updateComment = (id, timestamp, body) =>
+  fetch(`${api}/comments/${id}`, {
+    method: 'PUT',
+    headers: {
+     ...headers,
+     'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ timestamp, body })
+  }).catch(error => console.log(error));
