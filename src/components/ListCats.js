@@ -1,97 +1,118 @@
-import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom'
+import React, {
+    Component
+}
+from 'react';
+import {
+    Link, Route
+}
+from 'react-router-dom'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
-import { connect } from 'react-redux'
-import { addPost, changeSort, changeFilter } from '../actions'
+import {
+    connect
+}
+from 'react-redux'
+import {
+    addPost, changeSort, changeFilter
+}
+from '../actions'
 import * as ReadsAPI from '../utils/ReadsAPI'
-import { Switch } from 'react-foundation';
+import {
+    Switch
+}
+from 'react-foundation';
 
 import {
-  ButtonGroup,
-  Button
-} from 'reactstrap';
-
+    ButtonGroup,
+    Button
+}
+from 'reactstrap';
 
 class ListCats extends Component {
-  static propTypes = {
-    cats: PropTypes.array.isRequired,
-    selectedCat: PropTypes.string,
-    selectCategory: PropTypes.func.isRequired
-  }
-
-  componentDidMount(){
-    
-    console.log("INSIDE OF LISTCAT.JS!!!!!!!! ... componentWillReceiveProps")
-    ReadsAPI.getAllPosts().then((posts) => {
-      console.log("The posts are ", posts)
-      posts.map((post) => {
-        console.log("The post is ", post)
-        this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'], voteScore: post['voteScore'], deleted: post['deleted'] })
-      })
-    })
-  }
-
-  handleChangeSort = (event) => {
-    this.props.changeSortMethod({ sortMethod: document.getElementById('selectSort').value })
+    static propTypes = {
+        cats: PropTypes.array.isRequired,
+        selectedCat: PropTypes.string,
+        selectCategory: PropTypes.func.isRequired
     }
 
-  handleFilterCategory = (cat) => {
-    this.props.changeFilterCategory({ filterCat: cat['cat']['name'] })
+    componentDidMount() {
+        ReadsAPI.getAllPosts().then((posts) => {
+            posts.map((post) => {
+                this.props.submitPost({
+                    title: post['title'],
+                    author: post['author'],
+                    body: post['body'],
+                    id: post['id'],
+                    timestamp: post['timestamp'],
+                    category: post['category'],
+                    voteScore: post['voteScore'],
+                    deleted: post['deleted']
+                })
+            })
+        })
     }
 
-  render() {
-    const { cats, selectedCat, selectCategory } = this.props
-    console.log("SELECTED CAT IS ", selectedCat)
+    handleChangeSort = (event) => {
+        this.props.changeSortMethod({
+            sortMethod: document.getElementById('selectSort').value
+        })
+    }
 
-    return (
-            <div className="ListCats">
-    {/* Standard button */}
-    <div> 
-    <label>Categories:</label>
-    <ButtonGroup>
-    {cats.map((cat) => (
-      <Button key={cat.name} id={cat.name} color="primary" onClick={(event) => this.handleFilterCategory({cat})} active={cat.name === selectedCat}>{cat.name}</Button>
-  ))}
-        </ButtonGroup> 
-        <div> 
-        <label>Sort Method:</label>
-        <div>
-        <Link to="/createPost">Create Post</Link> 
-        <div>
-          <select id="selectSort" onChange={(event) => 
-         this.handleChangeSort(event) }>
-            <option value="voteScore">Vote Score</option>
-            <option value="timestamp">Time Stamp</option>
-          </select>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
+    handleFilterCategory = (cat) => {
+        this.props.changeFilterCategory({
+            filterCat: cat['cat']['name']
+        })
+    }
 
-  )}
-  }
-
-//export default ListCats
-
-function mapStateToProps(state, props) {
-   return Object.assign({}, props, { 
-    posts: state.post 
-  });
+    render() {
+        const {
+            cats, selectedCat, selectCategory
+        } = this.props
+        return ( < div className = "ListCats" > { /* Standard button */ } < div >
+            < label > Categories: < /label> < ButtonGroup > {
+            cats.map((cat) => ( < Button key = {
+                    cat.name
+                }
+                id = {
+                    cat.name
+                }
+                color = "primary"
+                onClick = {
+                    (event) => this.handleFilterCategory({
+                        cat
+                    })
+                }
+                active = {
+                    cat.name === selectedCat
+                } > {
+                    cat.name
+                } < /Button>
+            ))
+        } < /ButtonGroup>  < div > < label > Sort Method: < /label > < div > < Link to = "/createPost" > Create Post < /Link>  < div > < select id = "selectSort"
+        onChange = {
+                (event) =>
+                this.handleChangeSort(event)
+            } >
+            < option value = "voteScore" > Vote Score < /option> < option value = "timestamp" > Time Stamp < /option > < /select> < /div > < /div> < /div > < /div> < /div >
+    )
+}
 }
 
+function mapStateToProps(state, props) {
+    return Object.assign({}, props, {
+        posts: state.post
+    });
+}
 
-
-function mapDispatchToProps (dispatch) {
-  return {
-    submitPost: (data) => dispatch(addPost(data)),
-    changeSortMethod: (data) => dispatch(changeSort(data)),
-    changeFilterCategory: (data) => dispatch(changeFilter(data))
-  }
+function mapDispatchToProps(dispatch) {
+    return {
+        submitPost: (data) => dispatch(addPost(data)),
+        changeSortMethod: (data) => dispatch(changeSort(data)),
+        changeFilterCategory: (data) => dispatch(changeFilter(data))
+    }
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ListCats)
