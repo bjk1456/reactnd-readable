@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom'
 import logo from './logo.svg';
 import ListCats from './ListCats'
-import ListPosts from './ListPosts'
-import CreatePost from './CreatePost'
+import ListReads from './ListReads'
+import CreateRead from './CreateRead'
 import { connect } from 'react-redux'
 import { addPost, addComment } from '../actions'
 import '.././App.css';
-import * as PostsAPI from '../utils/PostsAPI'
+import * as ReadsAPI from '../utils/ReadsAPI'
 import { MediaObject, MediaObjectSection } from 'react-foundation';
 import { Thumbnail, ThumbnailLink } from 'react-foundation';
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
@@ -20,7 +20,7 @@ import {
   Button
 } from 'reactstrap';
 
-class PostDetail extends React.Component {
+class ReadDetail extends React.Component {
 
    state = {
     id: "",
@@ -33,12 +33,12 @@ class PostDetail extends React.Component {
     var isPost = this.props.location.pathname.search(postPatt);
     var isComment = this.props.location.pathname.search(commPatt);
 
-    console.log("Inside of PostDetails.js ... !!!!!!!!!!!! ... this.props.match.params.postId === ", this.props.match.params.postId);
+    console.log("Inside of ReadDetails.js ... !!!!!!!!!!!! ... this.props.match.params.postId === ", this.props.match.params.postId);
     console.log("... this.props.location.pathname == ", this.props.location.pathname);
-    console.log("Inside of PostDetails.js ... !!!!!!!!!!!! ... this.props.match.params.commentId === ", this.props.match.params.commentId)
+    console.log("Inside of ReadDetails.js ... !!!!!!!!!!!! ... this.props.match.params.commentId === ", this.props.match.params.commentId)
     if(this.props.match.params.postId) {
 
-      PostsAPI.getCommentsPost(this.props.match.params.postId).then((comments) => {
+      ReadsAPI.getCommentsPost(this.props.match.params.postId).then((comments) => {
         console.log("The comments are ", comments)
         comments.map((comment) => {
           this.props.submitComment({ title: comment['title'], author: comment['author'], body: comment['body'], id: comment['id'], timestamp: comment['timestamp'], 
@@ -61,7 +61,7 @@ class PostDetail extends React.Component {
 }
 
   componentWillReceiveProps(newProps){
-    console.log("Inside of PostDetail.js ... componentWillReceiveProps() ... newProps === ", newProps.match.params.postId);
+    console.log("Inside of ReadDetail.js ... componentWillReceiveProps() ... newProps === ", newProps.match.params.postId);
     if(newProps.match.params.postId === this.state.id) {
       this.setState({id: this.props.match.params.postId})
     }
@@ -69,22 +69,8 @@ class PostDetail extends React.Component {
 
   }
 
-  handleUpVote = (e, post) => {
-    post.voteScore += 1
-    this.props.submitPost(post)
-    }
-
-  handleDownVote = (e, post) => {
-    post.voteScore -= 1
-    this.props.submitPost(post)
-    }
-
-   handleCreateComment(e) {
-    return <CreatePost/> 
-  }
-
   render() {
-    console.log("Inside of PostDetail.js render ... this.props.posts == ", this.props.posts);
+    console.log("Inside of ReadDetail.js render ... this.props.posts == ", this.props.posts);
     console.log("... this.props.match.params.postId === ", this.props.match.params.postId);
     console.log("?????????????????????????????? isPost === ", this.state.readType)
     var post = null;
@@ -101,7 +87,7 @@ class PostDetail extends React.Component {
           post.title = key
           postFound = true;
           
-          console.log("INSIDE OF PostDetail.js FOR LOOP ... The post is ", post)
+          console.log("INSIDE OF ReadDetail.js FOR LOOP ... The post is ", post)
         }
     }
   }
@@ -115,7 +101,7 @@ class PostDetail extends React.Component {
           post.title = key
           postFound = true;
           
-          console.log("INSIDE OF PostDetail.js FOR LOOP ... The COMMENT is ", post)
+          console.log("INSIDE OF ReadDetail.js FOR LOOP ... The COMMENT is ", post)
           console.log("What he said ... this.state.id === ", this.state.id)
         }
     }
@@ -128,7 +114,7 @@ class PostDetail extends React.Component {
 
   if(postFound === true) {
 
-    console.log("Inside of PostDetail ... BY THE POWERS TO CREATE ... postType === ", postType);
+    console.log("Inside of ReadDetail ... BY THE POWERS TO CREATE ... postType === ", postType);
     var postId = null;
     if (this.props.match.params.postId) {
       postId = this.props.match.params.postId
@@ -137,15 +123,15 @@ class PostDetail extends React.Component {
     }
     return (
     <div>
-    <CreatePost postId={postId} editPost={true} postType={postType}/>
+    <CreateRead postId={postId} editPost={true} postType={postType}/>
     {postType === "post" ? (
       <div>
       <hr width="300"/>
-      <ListPosts readType="comment"/>
+      <ListReads readType="comment"/>
       <div>
       <hr width="300"/>
       <label>Create a Comment:</label>
-      <CreatePost editPost={false} postType={"comment"} parentId={postId}/>
+      <CreateRead editPost={false} postType={"comment"} parentId={postId}/>
       </div>
       </div>
     ) : (<div></div>)}
@@ -176,4 +162,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostDetail)
+)(ReadDetail)

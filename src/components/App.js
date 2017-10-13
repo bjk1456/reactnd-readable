@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Link, Route, Redirect } from 'react-router-dom'
-import logo from './logo.svg';
 import ListCats from './ListCats'
-import Post from './Post'
-import ListPosts from './ListPosts'
-import PostDetail from './PostDetail'
-import CreatePost from './CreatePost'
+import ReadDetail from './ReadDetail'
+import CreateRead from './CreateRead'
+import ListReads from './ListReads'
 import { addPost } from '../actions'
 import '.././App.css';
-import * as PostsAPI from '../utils/PostsAPI'
+import * as ReadsAPI from '../utils/ReadsAPI'
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
 import { MediaObject, MediaObjectSection } from 'react-foundation';
 import { Thumbnail, ThumbnailLink } from 'react-foundation';
@@ -27,7 +25,7 @@ class App extends React.Component {
   }
   
   componentDidMount(){
-    PostsAPI.getCats().then((cats) => {
+    ReadsAPI.getCats().then((cats) => {
       this.setState({cats})})
   }
 
@@ -41,11 +39,11 @@ class App extends React.Component {
     return (
 <div>
      <ListCats cats={this.state.cats} selectCategory={this.selectCategory} selectedCat={this.state.selectedCat}/>
-     <Route exact path="/" selectedCat={this.state.selectedCat} component={ListPosts} />
-     <Route exact path="/createPost" component={CreatePost} />
-      <Route exact path="/createComment" component={CreatePost} />
-     <Route exact path="/post/:postId" component={PostDetail}/>
-     <Route exact path="/post/comment/:commentId" component={PostDetail}/>
+     <Route exact path="/" selectedCat={this.state.selectedCat} component={ListReads} />
+     <Route exact path="/createPost" component={CreateRead} />
+      <Route exact path="/createComment" component={CreateRead} />
+     <Route exact path="/post/:postId" component={ReadDetail}/>
+     <Route exact path="/post/comment/:commentId" component={ReadDetail}/>
 </div>
   
     );

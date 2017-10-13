@@ -4,11 +4,11 @@ import TextareaAutosize from 'react-autosize-textarea';
 import { connect } from 'react-redux'
 import { addPost, addComment } from '../actions'
 import PropTypes from 'prop-types'
-import * as PostsAPI from '../utils/PostsAPI'
+import * as ReadsAPI from '../utils/ReadsAPI'
 import { Redirect } from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 
-class CreatePost extends React.Component {
+class CreateRead extends React.Component {
   
   static propTypes = {
     postId: PropTypes.string,
@@ -26,13 +26,13 @@ static propTypes = {
   }
 */
   componentDidMount(){
-    console.log("Inside of CreatePost.js .... componentDIDMount()")
+    console.log("Inside of CreateRead.js .... componentDIDMount()")
 
       	const {editPost, postId, postType} = this.props;
   	console.log("Create Post ... componentWillReceiveProps");
   	console.log(".........this.props.postType === ", this.props.postType);
-  	console.log("Inside of CreatePost.js ... editPost == ", editPost);
-  	console.log("Inside of CreatePost.js ... postId == ", postId);
+  	console.log("Inside of CreateRead.js ... editPost == ", editPost);
+  	console.log("Inside of CreateRead.js ... postId == ", postId);
 
   	  if(this.props.parentId){
   	console.log("88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888")
@@ -40,13 +40,13 @@ static propTypes = {
   }
   	
   	if ((editPost) && (postType === "post")) {
-  	  console.log("!!!! Inside of CreatePost.js ... editPost == ", editPost);
+  	  console.log("!!!! Inside of CreateRead.js ... editPost == ", editPost);
   	  console.log("!!!! postId == ", postId);
   	  for(var key in this.props.posts) {
 	      if (this.props.posts[key]['id'] === postId){
 	        var post = this.props.posts[key];
 	        post.title = key
-	        console.log("INSIDE OF CreatePost.js ... The post is ", post)
+	        console.log("INSIDE OF CreateRead.js ... The post is ", post)
 	        this.setState({title: post.title})
 	        this.setState({author: post.author})
 	        this.setState({body: post.body})
@@ -58,13 +58,13 @@ static propTypes = {
   }
   }
   if ((editPost) && (postType === "comment")) {
-  	  console.log("!!!! Inside of CreatePost.js ... postTypes is comment ... editPost == ", editPost);
+  	  console.log("!!!! Inside of CreateRead.js ... postTypes is comment ... editPost == ", editPost);
   	  console.log("!!!! postId == ", postId);
   	  for(var key in this.props.comments) {
   	  	if (this.props.comments[key]['id'] === postId){
 	        var post = this.props.comments[key];
 	        //post.title = key
-	        console.log("INSIDE OF CreatePost.js ... The COMMENT is ", post)
+	        console.log("INSIDE OF CreateRead.js ... The COMMENT is ", post)
 	        this.setState({title: "I am a comment"})
 	        this.setState({author: post.author})
 	        this.setState({body: post.body})
@@ -83,7 +83,7 @@ static propTypes = {
 }
   componentWillReceiveProps(newProps){
   	const {editPost, postId, postType, parentId} = this.props;
-    console.log("Inside of CreatePost.js ... componentWillReceiveProps() ... newProps = ", newProps);
+    console.log("Inside of CreateRead.js ... componentWillReceiveProps() ... newProps = ", newProps);
     console.log("newProps.postId === ", newProps.postId)
     console.log("this.state.id === ", this.state.id)
     console.log("newProps.posts === ", newProps.posts)
@@ -94,7 +94,7 @@ static propTypes = {
 	      if (newProps.posts[key]['id'] === newProps.postId){
 	        var post = newProps.posts[key];
 	        post.title = key
-	        console.log("INSIDE OF CreatePost.js ... componentWillReceiveProps(newProps) ... The post is ", post)
+	        console.log("INSIDE OF CreateRead.js ... componentWillReceiveProps(newProps) ... The post is ", post)
 	        this.setState({title: post.title})
 	        this.setState({author: post.author})
 	        this.setState({body: post.body})
@@ -172,16 +172,16 @@ static propTypes = {
   	category = this.props.editPost.category;
   }
 
-  console.log("Inside of CreatePost.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!! ... this.props.postType === ", this.props.postType)
-  console.log("Inside of CreatePost.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!! ... the category is ", category)
+  console.log("Inside of CreateRead.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!! ... this.props.postType === ", this.props.postType)
+  console.log("Inside of CreateRead.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!! ... the category is ", category)
   if(this.props.postType === "comment"){
   	this.props.submitComment({ title: this.state.title, author: this.state.author, body: this.state.body, id: id, timestamp: date, 
   	  parentDeleted: this.state.parentDeleted, parentId: this.state.parentId })
-  	console.log("Inside of CreatePost.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!!")
+  	console.log("Inside of CreateRead.js ... about to SUBMIT COMMENT!!!!!!!!!!!!!!!!!")
   	if(this.props.editPost){
-  		PostsAPI.updateComment(id, date, this.state.body );
+  		ReadsAPI.updateComment(id, date, this.state.body );
   	} else {
-  	  PostsAPI.comment(this.state.parentId, this.state.author, this.state.body, id, date).then(() => {
+  	  ReadsAPI.comment(this.state.parentId, this.state.author, this.state.body, id, date).then(() => {
   })
   }
 } else {
@@ -189,9 +189,9 @@ static propTypes = {
   deleted: false }) 
   	//category: this.props.category, deleted: this.deleted, category: this.category, voteScore: this.voteScore });
   if(this.props.editPost){
-      PostsAPI.updatePost(id, this.state.title, this.state.body );
+      ReadsAPI.updatePost(id, this.state.title, this.state.body );
   }else{
-  	PostsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {
+  	ReadsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {
   })
   }
 }
@@ -206,11 +206,11 @@ static propTypes = {
     parentId: "",
   });
 
-/**
+
    const history = createHistory()
    history.push('/');
    window.location.reload()
- */   
+    
   }
   
   handleTitle(e) {
@@ -226,7 +226,7 @@ static propTypes = {
   }
 
   render() {
-  	console.log("INSIDE OF CREATEPOST ... this.props.postType", this.props.postType)
+  	console.log("INSIDE OF CreateRead ... this.props.postType", this.props.postType)
     return (
    <fieldset>
     <legend>{this.props.postType}:</legend>
@@ -266,6 +266,6 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreatePost)
+)(CreateRead)
 
-//export default CreatePost
+//export default CreateRead

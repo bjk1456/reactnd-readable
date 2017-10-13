@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import { connect } from 'react-redux'
 import { addPost, changeSort, changeFilter } from '../actions'
-import * as PostsAPI from '../utils/PostsAPI'
+import * as ReadsAPI from '../utils/ReadsAPI'
 import { Switch } from 'react-foundation';
 
 import {
@@ -23,7 +23,7 @@ class ListCats extends Component {
   componentDidMount(){
     
     console.log("INSIDE OF LISTCAT.JS!!!!!!!! ... componentWillReceiveProps")
-    PostsAPI.getAllPosts().then((posts) => {
+    ReadsAPI.getAllPosts().then((posts) => {
       console.log("The posts are ", posts)
       posts.map((post) => {
         console.log("The post is ", post)

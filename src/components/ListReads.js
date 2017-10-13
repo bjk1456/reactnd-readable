@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom'
-import logo from './logo.svg';
-import ListCats from './ListCats'
 import Post from './Post'
-import CreatePost from './CreatePost'
+import CreateRead from './CreateRead'
 import { connect } from 'react-redux'
 import { addPost, addComment } from '../actions'
 import '.././App.css';
-import * as PostsAPI from '../utils/PostsAPI';
+import * as ReadsAPI from '../utils/ReadsAPI';
 import { MediaObject, MediaObjectSection } from 'react-foundation';
 import { Thumbnail, ThumbnailLink } from 'react-foundation';
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up';
@@ -22,13 +20,13 @@ import {
   Button
 } from 'reactstrap';
 
-class ListPosts extends React.Component {
+class ListReads extends React.Component {
     static propTypes = {
     readType: PropTypes.string
   }
 
   componentDidMount(){
-    console.log("Inside of ListPosts.js ... posts are !!!!!!!!!!!!", this.props.posts);
+    console.log("Inside of ListReads.js ... posts are !!!!!!!!!!!!", this.props.posts);
   }
 
   handleUpVote = (event, readType, read) => {
@@ -36,11 +34,11 @@ class ListPosts extends React.Component {
     console.log("readType == ", readType);
   if(readType === "post") {
     this.props.submitPost(read)
-    PostsAPI.vote(read.id, "posts", "upVote").then(() => {
+    ReadsAPI.vote(read.id, "posts", "upVote").then(() => {
   })
   } else if (readType === "comment") {
     this.props.submitComment(read)
-    PostsAPI.vote(read.id, "comments", "upVote").then(() => {
+    ReadsAPI.vote(read.id, "comments", "upVote").then(() => {
   })
     }
   }
@@ -49,11 +47,11 @@ class ListPosts extends React.Component {
     read.voteScore -= 1
   if(readType === "post") {
     this.props.submitPost(read)
-    PostsAPI.vote(read.id, "posts", "upVote").then(() => {
+    ReadsAPI.vote(read.id, "posts", "upVote").then(() => {
   })
   } else if (readType === "comment") {
     this.props.submitComment(read)
-    PostsAPI.vote(read.id, "comments", "upVote").then(() => {
+    ReadsAPI.vote(read.id, "comments", "upVote").then(() => {
   })
     }
     }
@@ -62,18 +60,18 @@ class ListPosts extends React.Component {
     read.deleted = "true";
     if(readType === "post") {
       this.props.submitPost(read)
-      PostsAPI.deleteRead(read.id, "posts").then(() => {
+      ReadsAPI.deleteRead(read.id, "posts").then(() => {
       })
     } else if (readType === "comment") {
       this.props.submitComment(read)
-      PostsAPI.deleteRead(read.id, "comments").then(() => {
+      ReadsAPI.deleteRead(read.id, "comments").then(() => {
       })
     }
   }
 
   render() {
     var { readType } = this.props
-    console.log("Inside of ListPosts.js ... render() ... readType == ", readType);
+    console.log("Inside of ListReads.js ... render() ... readType == ", readType);
     var readsToDsply = [];
     var reads = {};
     var hmnRdDate = new Date();
@@ -87,7 +85,7 @@ class ListPosts extends React.Component {
       reads = this.props.posts;
     }
     for(var key in reads){
-      console.log("Inside of ListPosts.js for loop ... key == ", key)
+      console.log("Inside of ListReads.js for loop ... key == ", key)
       var post = reads[key];
         post.title = key
         if(('parentDeleted' in post) && (post.parentDeleted)) {
@@ -115,8 +113,8 @@ class ListPosts extends React.Component {
           return post.category === filterCat;
         })}
 
-        console.log("Inside of ListPosts.js ... readsToDsply == ", readsToDsply)
-        console.log("still inside ListPosts.js ... ... about to return .... readType == ", readType);
+        console.log("Inside of ListReads.js ... readsToDsply == ", readsToDsply)
+        console.log("still inside ListReads.js ... ... about to return .... readType == ", readType);
 
     return (
 
@@ -192,4 +190,4 @@ function mapDispatchToProps (dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListPosts)
+)(ListReads)
