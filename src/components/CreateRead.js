@@ -20,8 +20,8 @@ class CreateRead extends React.Component {
 
     static propTypes = {
         postId: PropTypes.string,
-        editPost: PropTypes.bool,
-        postType: PropTypes.string
+        editRead: PropTypes.bool,
+        readType: PropTypes.string
     }
 
     constructor(props) {
@@ -31,7 +31,7 @@ class CreateRead extends React.Component {
 
     componentDidMount() {
         const {
-            editPost, postId, postType
+            editRead, postId, readType
         } = this.props;
 
         if (this.props.parentId) {
@@ -40,7 +40,7 @@ class CreateRead extends React.Component {
             })
         }
 
-        if ((editPost) && (postType === "post")) {
+        if ((editRead) && (readType === "post")) {
             for (var key in this.props.posts) {
                 if (this.props.posts[key]['id'] === postId) {
                     var post = this.props.posts[key];
@@ -63,7 +63,7 @@ class CreateRead extends React.Component {
                 }
             }
         }
-        if ((editPost) && (postType === "comment")) {
+        if ((editRead) && (readType === "comment")) {
             for (var key in this.props.comments) {
                 if (this.props.comments[key]['id'] === postId) {
                     var post = this.props.comments[key];
@@ -165,7 +165,7 @@ class CreateRead extends React.Component {
             return;
         }
         
-        if (((this.props.editPost !== true) && (this.props.filter['filterCat'] === "all") && (this.props.postType === "post")) ||
+        if (((this.props.editRead !== true) && (this.props.filter['filterCat'] === "all") && (this.props.readType === "post")) ||
             ((this.props.location) && (this.props.location.pathname === "/createPost") && (this.props.filter['filterCat'] === "all"))) {
             window.alert("Click on a category from above: ");
             return;
@@ -176,12 +176,12 @@ class CreateRead extends React.Component {
         var id = null;
         var category = null;
         this.state.id ? id = this.state.id : id = uuidv4();
-        if (this.props.editPost !== true) {
+        if (this.props.editRead !== true) {
             category = this.props.filter['filterCat'];
         } else {
-            category = this.props.editPost.category;
+            category = this.props.editRead.category;
         }
-        if (this.props.postType === "comment") {
+        if (this.props.readType === "comment") {
             this.props.submitComment({
                 title: this.state.title,
                 author: this.state.author,
@@ -191,7 +191,7 @@ class CreateRead extends React.Component {
                 parentDeleted: this.state.parentDeleted,
                 parentId: this.state.parentId
             })
-            if (this.props.editPost) {
+            if (this.props.editRead) {
                 ReadsAPI.updateComment(id, date, this.state.body);
             } else {
                 ReadsAPI.comment(this.state.parentId, this.state.author, this.state.body, id, date).then(() => {})
@@ -206,7 +206,7 @@ class CreateRead extends React.Component {
                 category: category,
                 deleted: false
             })
-            if (this.props.editPost) {
+            if (this.props.editRead) {
                 ReadsAPI.updatePost(id, this.state.title, this.state.body);
             } else {
                 ReadsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {})
@@ -248,7 +248,7 @@ class CreateRead extends React.Component {
     render() {
         return ( < fieldset >
             < legend > {
-                this.props.postType
+                this.props.readType
             }: < /legend>
             Title: < input type = "text"
             name = "title"

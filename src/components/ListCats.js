@@ -82,7 +82,7 @@ class ListCats extends Component {
                     cat.name
                 } < /Button>
             ))
-        } < /ButtonGroup>  < div > < label > Sort Method: < /label > < div > < Link to = "/createPost" > Create Post < /Link>  < div > < select id = "selectSort"
+        } < /ButtonGroup>  < div > < div > < Link to = "/createPost" > Create Post < /Link>  <div> < label > Sort Method: < /label > </div> < div > < select id = "selectSort"
         onChange = {
                 (event) =>
                 this.handleChangeSort(event)

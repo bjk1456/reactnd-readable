@@ -23,7 +23,6 @@ class ReadDetail extends React.Component {
         if (this.props.match.params.postId) {
 
             ReadsAPI.getCommentsPost(this.props.match.params.postId).then((comments) => {
-                console.log("The comments are ", comments)
                 comments.map((comment) => {
                     this.props.submitComment({
                         title: comment['title'],
@@ -62,10 +61,10 @@ class ReadDetail extends React.Component {
 
         var post = null;
         var postFound = false;
-        var postType = "";
+        var readType = "";
 
         if (this.props.match.params.postId) {
-            postType = "post";
+            readType = "post";
             for (var key in this.props.posts) {
                 if (this.props.posts[key]['id'] === this.props.match.params.postId) {
                     post = this.props.posts[key];
@@ -76,7 +75,7 @@ class ReadDetail extends React.Component {
                 }
             }
         } else if (this.props.match.params.commentId) {
-            postType = "comment";
+            readType = "comment";
             for (var key in this.props.comments) {
                 if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
                     post = this.props.comments[key];
@@ -101,22 +100,22 @@ class ReadDetail extends React.Component {
                 < CreateRead postId = {
                     postId
                 }
-                editPost = {
+                editRead = {
                     true
                 }
-                postType = {
-                    postType
+                readType = {
+                    readType
                 }
                 /> {
-                postType === "post" ? ( < div >
+                readType === "post" ? ( < div >
                     < hr width = "300" / >
                     < ListReads readType = "comment" / >
                     < div >
                     < hr width = "300" / >
-                    < label > Create a Comment: < /label> < CreateRead editPost = {
+                    < label > Create a Comment: < /label> < CreateRead editRead = {
                     false
                 }
-                postType = {
+                readType = {
                     "comment"
                 }
                 parentId = {
