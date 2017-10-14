@@ -1,38 +1,15 @@
-import React, {
-    Component
-}
+import React
 from 'react';
 import {
-    Link, Route, Redirect
+    Route
 }
 from 'react-router-dom'
 import ListCats from './ListCats'
 import ReadDetail from './ReadDetail'
 import CreateRead from './CreateRead'
 import ListReads from './ListReads'
-import {
-    addPost
-}
-from '../actions'
 import '.././App.css';
 import * as ReadsAPI from '../utils/ReadsAPI'
-import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
-import {
-    MediaObject, MediaObjectSection
-}
-from 'react-foundation';
-import {
-    Thumbnail, ThumbnailLink
-}
-from 'react-foundation';
-
-
-import {
-    Media,
-    ButtonToolbar,
-    Button
-}
-from 'reactstrap';
 
 class App extends React.Component {
     state = {
@@ -49,8 +26,6 @@ class App extends React.Component {
     }
 
     selectCategory = (cat) => {
-        console.log("The cat is ", cat['cat'].name)
-        console.log("this.state.selectedCat == " + this.state.selectedCat)
         this.setState({
             selectedCat: cat['cat'].name
         })

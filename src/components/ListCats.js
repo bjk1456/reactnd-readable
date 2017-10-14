@@ -3,11 +3,10 @@ import React, {
 }
 from 'react';
 import {
-    Link, Route
+    Link
 }
 from 'react-router-dom'
 import PropTypes from 'prop-types'
-import escapeRegExp from 'escape-string-regexp'
 import {
     connect
 }
@@ -17,11 +16,6 @@ import {
 }
 from '../actions'
 import * as ReadsAPI from '../utils/ReadsAPI'
-import {
-    Switch
-}
-from 'react-foundation';
-
 import {
     ButtonGroup,
     Button
@@ -66,7 +60,7 @@ class ListCats extends Component {
 
     render() {
         const {
-            cats, selectedCat, selectCategory
+            cats, selectedCat
         } = this.props
         return ( < div className = "ListCats" > { /* Standard button */ } < div >
             < label > Categories: < /label> < ButtonGroup > {

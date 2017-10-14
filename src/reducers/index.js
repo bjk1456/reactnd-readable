@@ -9,7 +9,7 @@ import {
 } from '../actions'
 
 function post (state = {}, action) {
-  const { title, author, body, id, timestamp, category, voteScore, sorting, deleted } = action
+  const { title, author, body, id, timestamp, category, voteScore, deleted } = action
   switch (action.type) {
     case ADD_POST :
       return {
@@ -30,7 +30,7 @@ function post (state = {}, action) {
   }
 
  function comment (state = {}, action) {
-  const { title, author, body, id, timestamp, category, voteScore, sorting, deleted, parentDeleted, parentId } = action
+  const { author, body, id, timestamp, category, voteScore, deleted, parentDeleted, parentId } = action
   switch (action.type) {
     case ADD_COMMENT :
       return {

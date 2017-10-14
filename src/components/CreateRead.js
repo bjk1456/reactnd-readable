@@ -14,10 +14,6 @@ import {
 from '../actions'
 import PropTypes from 'prop-types'
 import * as ReadsAPI from '../utils/ReadsAPI'
-import {
-    Redirect
-}
-from 'react-router-dom'
 import createHistory from 'history/createBrowserHistory'
 
 class CreateRead extends React.Component {
@@ -94,10 +90,10 @@ class CreateRead extends React.Component {
         }
 
     }
-    
+
     componentWillReceiveProps(newProps) {
         const {
-            editPost, postId, postType, parentId
+            parentId
         } = this.props;
 
         if (newProps.postId === this.state.id) {
@@ -168,18 +164,19 @@ class CreateRead extends React.Component {
             window.alert("MISSING FIELDS: " + msg);
             return;
         }
-
-        if ((this.props.editPost != true) && (this.props.filter['filterCat'] === "all") && (this.props.postType === "post")) {
+        
+        if (((this.props.editPost !== true) && (this.props.filter['filterCat'] === "all") && (this.props.postType === "post")) ||
+            ((this.props.location) && (this.props.location.pathname === "/createPost") && (this.props.filter['filterCat'] === "all"))) {
             window.alert("Click on a category from above: ");
             return;
         }
-
+    
         const uuidv4 = require('uuid/v1');
         var date = Date.now();
         var id = null;
         var category = null;
         this.state.id ? id = this.state.id : id = uuidv4();
-        if (this.props.editPost != true) {
+        if (this.props.editPost !== true) {
             category = this.props.filter['filterCat'];
         } else {
             category = this.props.editPost.category;
@@ -224,10 +221,10 @@ class CreateRead extends React.Component {
             parentDeleted: "",
             parentId: "",
         });
+        
         const history = createHistory()
         history.push('/');
         window.location.reload()
-
     }
 
     handleTitle(e) {

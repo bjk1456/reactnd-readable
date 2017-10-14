@@ -1,13 +1,8 @@
-import React, {
-    Component
-}
-from 'react';
+import React from 'react';
 import {
-    Link, Route
+    Link
 }
 from 'react-router-dom'
-import Post from './Post'
-import CreateRead from './CreateRead'
 import {
     connect
 }
@@ -23,21 +18,13 @@ import {
 }
 from 'react-foundation';
 import {
-    Thumbnail, ThumbnailLink
+    Thumbnail
 }
 from 'react-foundation';
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up';
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down';
 import TiDelete from 'react-icons/lib/ti/delete';
 import PropTypes from 'prop-types'
-
-
-import {
-    Media,
-    ButtonToolbar,
-    Button
-}
-from 'reactstrap';
 
 class ListReads extends React.Component {
     static propTypes = {

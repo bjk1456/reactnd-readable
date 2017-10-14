@@ -1,13 +1,4 @@
-import React, {
-    Component
-}
-from 'react';
-import {
-    Link, Route
-}
-from 'react-router-dom'
-import logo from './logo.svg';
-import ListCats from './ListCats'
+import React from 'react';
 import ListReads from './ListReads'
 import CreateRead from './CreateRead'
 import {
@@ -20,24 +11,6 @@ import {
 from '../actions'
 import '.././App.css';
 import * as ReadsAPI from '../utils/ReadsAPI'
-import {
-    MediaObject, MediaObjectSection
-}
-from 'react-foundation';
-import {
-    Thumbnail, ThumbnailLink
-}
-from 'react-foundation';
-import TiThumbsUp from 'react-icons/lib/ti/thumbs-up'
-import TiThumbsDown from 'react-icons/lib/ti/thumbs-down'
-
-
-import {
-    Media,
-    ButtonToolbar,
-    Button
-}
-from 'reactstrap';
 
 class ReadDetail extends React.Component {
 
@@ -47,10 +20,6 @@ class ReadDetail extends React.Component {
     }
 
     componentDidMount() {
-        var postPatt = /post/;
-        var commPatt = /comment/
-        var isPost = this.props.location.pathname.search(postPatt);
-        var isComment = this.props.location.pathname.search(commPatt);
         if (this.props.match.params.postId) {
 
             ReadsAPI.getCommentsPost(this.props.match.params.postId).then((comments) => {
