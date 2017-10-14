@@ -5,7 +5,7 @@ WARNING: This software is intended to only be run on a computer running the Linu
 Download this project into a directory. Inside of the project root directory run the command 'yarn install' in order to install dependencies.
 
 ## Running
-BEFORE STARTING THE APPLICATION YOU MUST add:
+BEFORE STARTING THE APPLICATION YOU MUST ADD:
 ```
 {
         name: 'all',
