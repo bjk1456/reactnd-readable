@@ -1,3 +1,34 @@
+## Installation
+```
+WARNING: This software is intended to only be run on a computer running the Linux operating system.
+```
+Download this project into a directory. Inside of the project root directory run the command 'yarn install' in order to install dependencies.
+
+## Running
+BEFORE STARTING THE APPLICATION YOU MUST ADD:
+```
+{
+        name: 'all',
+        path: 'all'
+}
+```
+to the categories in the categories.js file inside the server that's inside the reactnd-project-readable-starter package.
+
+Inside of the project root directory run the command 'yarn start' in order to begin hosting the project. Within 1 minute a new window will open up inside of your start default web browser. The program will run on localhost with a port number of 3000. 
+
+At the very top of the page is the label "Categores:" with buttons to the immediate right. These are used for sorting by category and specifying the category of a new post when you create one. Click on one to invoke it. To remove the filter click the "all" button.
+
+The line below has a link for "Create Post." In order to create a post, click on it, fill in the information, and then click the "Submit" button.
+
+Next line below is a drop down that contains 2 choices: "Vote Score" and "Time Stamp." These are the sorting methods. Once click the method will immediately be invoked.
+
+Next are the list of posts. Click on the thumbs up/thumbs down button to change the vote score of the post. Click the x button to remove the post. Click the "View Comments/Edit" click to get a detail view of the post. This behavior is the same for comments.
+
+The detail view of the post contains all the fields of the post, the list of comments (if there are any) and a comment field at the bottom to enter in a new comment. In order to create a new comment enter the information at the bottom of the page and then click submit. In order to edit a post, make changes and then click submit. After clicking you will be taken back to the main page. If you want to edit a comment click the "View Comments/Edit" link. Upon clicking it you will be sent to a comment detail page. Make changes and then click submit.
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
