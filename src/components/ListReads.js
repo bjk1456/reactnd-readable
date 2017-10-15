@@ -114,10 +114,7 @@ class ListReads extends React.Component {
                 readsToDsply.map((read) => ( < li >
                     < MediaObject >
                     < MediaObjectSection >
-                    < Thumbnail src = {
-                        require('./pyle1.jpg')
-                    }
-                    /> < /MediaObjectSection> < MediaObjectSection isMain >
+                    < /MediaObjectSection> < MediaObjectSection isMain >
                     < h4 > {
                         read.title
                     } < /h4> < h6 > Author: {
