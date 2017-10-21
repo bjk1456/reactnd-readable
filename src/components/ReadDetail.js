@@ -22,22 +22,6 @@ class ReadDetail extends React.Component {
     componentDidMount() {
         if (this.props.match.params.postId) {
 
-            ReadsAPI.getCommentsPost(this.props.match.params.postId).then((comments) => {
-                comments.map((comment) => {
-                    this.props.submitComment({
-                        title: comment['title'],
-                        author: comment['author'],
-                        body: comment['body'],
-                        id: comment['id'],
-                        timestamp: comment['timestamp'],
-                        category: comment['category'],
-                        voteScore: comment['voteScore'],
-                        deleted: comment['deleted'],
-                        parentDeleted: comment['parentDeleted'],
-                        parentId: comment['parentId']
-                    })
-                })
-            })
             this.setState({
                 id: this.props.match.params.postId
             })
@@ -79,7 +63,6 @@ class ReadDetail extends React.Component {
             for (var key in this.props.comments) {
                 if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
                     post = this.props.comments[key];
-                    console.log("... before if post.delted ... post === ", post)
                     if (post.deleted === false) {
                         post.title = key
                         postFound = true;
@@ -109,7 +92,7 @@ class ReadDetail extends React.Component {
                 /> {
                 readType === "post" ? ( < div >
                     < hr width = "300" / >
-                    < ListReads readType = "comment" / >
+                    < ListReads readType = "comment" readId = {postId} / >
                     < div >
                     < hr width = "300" / >
                     < label > Create a Comment: < /label> < CreateRead editRead = {
@@ -140,8 +123,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        submitPost: (data) => dispatch(addPost(data)),
-        submitComment: (data) => dispatch(addComment(data))
+        submitPost: (data) => dispatch(addPost(data))
     }
 }
 

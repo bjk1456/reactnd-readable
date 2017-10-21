@@ -178,6 +178,7 @@ class CreateRead extends React.Component {
         this.state.id ? id = this.state.id : id = uuidv4();
         if (this.props.editRead !== true) {
             category = this.props.filter['filterCat'];
+            console.log("Inside of CreateRead.js ... category === ", category)
         } else {
             category = this.props.editRead.category;
         }

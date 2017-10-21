@@ -28,12 +28,12 @@ import PropTypes from 'prop-types'
 
 class ListReads extends React.Component {
     static propTypes = {
-        readType: PropTypes.string
+        readType: PropTypes.string,
+        readId: PropTypes.string
     }
 
     handleUpVote = (event, readType, read) => {
         read.voteScore += 1;
-        console.log("readType == ", readType);
         if (readType === "post") {
             this.props.submitPost(read)
             ReadsAPI.vote(read.id, "posts", "upVote").then(() => {})
@@ -65,6 +65,20 @@ class ListReads extends React.Component {
         }
     }
 
+    renderNumComments(readType, readId) {
+        if( readType === "post") {
+        var numComments = 0;
+        console.log("this.props.comments === ", this.props.comments)
+        for (var key in this.props.comments) {
+            if (this.props.comments[key]['parentId'] === readId) {
+                numComments += 1;
+                }
+            }
+        }
+        return ( readType === "post" ? 
+            < div > < label >Num Comments: {numComments}< /label > < /div > : null);
+    }
+
     render() {
         var {
             readType
@@ -74,7 +88,11 @@ class ListReads extends React.Component {
         var hmnRdDate = new Date();
 
         if (readType === "comment") {
-            reads = this.props.comments;
+            for (var key in this.props.comments) {
+            if (this.props.comments[key]['parentId'] === this.props.readId) {
+                reads[key] =  this.props.comments[key];
+                }
+            }
         } else {
             readType = "post"
             reads = this.props.posts;
@@ -151,7 +169,9 @@ class ListReads extends React.Component {
                     }
                     /> < /button> < label > timestamp: {
                         read.hmnRdDate
-                    } < /label> < /div> < div >
+                    } < /label> < /div> 
+                    { this.renderNumComments(readType, read.id) }  
+                    < div >
                     < Link to = {
                         readType + "/" + read.id
                     } > View Comments / Edit < /Link> < /div> < /MediaObjectSection> < /MediaObject> < /li>

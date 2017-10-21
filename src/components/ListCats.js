@@ -12,7 +12,7 @@ import {
 }
 from 'react-redux'
 import {
-    addPost, changeSort, changeFilter
+    addPost, changeSort, changeFilter, addComment
 }
 from '../actions'
 import * as ReadsAPI from '../utils/ReadsAPI'
@@ -42,6 +42,22 @@ class ListCats extends Component {
                     voteScore: post['voteScore'],
                     deleted: post['deleted']
                 })
+                ReadsAPI.getCommentsPost(post['id']).then((comments) => {
+                    comments.map((comment) => {
+                    this.props.submitComment({
+                        title: comment['title'],
+                        author: comment['author'],
+                        body: comment['body'],
+                        id: comment['id'],
+                        timestamp: comment['timestamp'],
+                        category: comment['category'],
+                        voteScore: comment['voteScore'],
+                        deleted: comment['deleted'],
+                        parentDeleted: comment['parentDeleted'],
+                        parentId: comment['parentId']
+                    })
+                })
+              })
             })
         })
     }
@@ -102,7 +118,8 @@ function mapDispatchToProps(dispatch) {
     return {
         submitPost: (data) => dispatch(addPost(data)),
         changeSortMethod: (data) => dispatch(changeSort(data)),
-        changeFilterCategory: (data) => dispatch(changeFilter(data))
+        changeFilterCategory: (data) => dispatch(changeFilter(data)),
+        submitComment: (data) => dispatch(addComment(data))
     }
 }
 
