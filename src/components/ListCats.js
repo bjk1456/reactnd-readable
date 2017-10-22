@@ -78,7 +78,7 @@ class ListCats extends Component {
         const {
             cats, selectedCat
         } = this.props
-        return ( < div className = "ListCats" > { /* Standard button */ } < div >
+        return ( < div className = "ListCats" > { /* Standard button */ } <div>
             < label > Categories: < /label> < ButtonGroup > {
             cats.map((cat) => ( < Button key = {
                     cat.name
@@ -98,12 +98,12 @@ class ListCats extends Component {
                     cat.name
                 } < /Button>
             ))
-        } < /ButtonGroup>  < div > < div > < Link to = "/createPost" > Create Post < /Link>  <div> < label > Sort Method: < /label > </div> < div > < select id = "selectSort"
+        } < /ButtonGroup>  <div> <div> < Link to = "/createPost" > Create Post < /Link>  <div> < label > Sort Method: < /label > </div> <div> < select id = "selectSort"
         onChange = {
                 (event) =>
                 this.handleChangeSort(event)
             } >
-            < option value = "voteScore" > Vote Score < /option> < option value = "timestamp" > Time Stamp < /option > < /select> < /div > < /div> < /div > < /div> < /div >
+            < option value = "voteScore" > Vote Score < /option> < option value = "timestamp" > Time Stamp < /option > < /select> </div> </div> </div> < /div> </div>
     )
 }
 }

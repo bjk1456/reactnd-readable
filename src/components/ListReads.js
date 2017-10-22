@@ -8,7 +8,7 @@ import {
 }
 from 'react-redux'
 import {
-    addPost, addComment
+    addPost, addComment, changeFilter
 }
 from '../actions'
 import '.././App.css';
@@ -32,6 +32,18 @@ class ListReads extends React.Component {
         readId: PropTypes.string
     }
 
+    componentDidMount() {
+        if((this.props.match) && (this.props.match.params.category)){
+            this.props.changeFilterCategory({
+                filterCat: this.props.match.params.category
+            })
+        }
+        else{
+            this.props.changeFilterCategory({
+            filterCat: "all"
+        })
+        }
+    }
     handleUpVote = (event, readType, read) => {
         read.voteScore += 1;
         if (readType === "post") {
@@ -69,7 +81,7 @@ class ListReads extends React.Component {
         if( readType === "post") {
         var numComments = 0;
         console.log("this.props.comments === ", this.props.comments)
-        for (var key in this.props.comments) {
+        for (let key in this.props.comments) {
             if (this.props.comments[key]['parentId'] === readId) {
                 numComments += 1;
                 }
@@ -80,15 +92,15 @@ class ListReads extends React.Component {
     }
 
     render() {
-        var {
+        let {
             readType
         } = this.props
-        var readsToDsply = [];
-        var reads = {};
-        var hmnRdDate = new Date();
+        let readsToDsply = [];
+        let reads = {};
+        let hmnRdDate = new Date();
 
         if (readType === "comment") {
-            for (var key in this.props.comments) {
+            for (let key in this.props.comments) {
             if (this.props.comments[key]['parentId'] === this.props.readId) {
                 reads[key] =  this.props.comments[key];
                 }
@@ -97,8 +109,8 @@ class ListReads extends React.Component {
             readType = "post"
             reads = this.props.posts;
         }
-        for (var key in reads) {
-            var post = reads[key];
+        for (let key in reads) {
+            let post = reads[key];
             post.title = key
             if (('parentDeleted' in post) && (post.parentDeleted)) {
                 post.deleted = true;
@@ -110,7 +122,7 @@ class ListReads extends React.Component {
             }
         }
 
-        var sortMeth = this.props.sortMethod['sortMethod'];
+        let sortMeth = this.props.sortMethod['sortMethod'];
         readsToDsply.sort((a, b) => {
             if (sortMeth === "voteScore") {
                 return b.voteScore - a.voteScore;
@@ -119,7 +131,7 @@ class ListReads extends React.Component {
                 return b.timestamp - a.timestamp;
             }
         })
-        var filterCat = this.props.filterCategory['filterCat'];
+        let filterCat = this.props.filterCategory['filterCat'];
         if (filterCat !== "all") {
             readsToDsply = readsToDsply.filter((post) => {
                 return post.category === filterCat;
@@ -171,10 +183,19 @@ class ListReads extends React.Component {
                         read.hmnRdDate
                     } < /label> < /div> 
                     { this.renderNumComments(readType, read.id) }  
-                    < div >
-                    < Link to = {
-                        readType + "/" + read.id
-                    } > View Comments / Edit < /Link> < /div> < /MediaObjectSection> < /MediaObject> < /li>
+                    {
+                    readType === "post" ? (
+                        < div > 
+                        < Link to = {
+                            read.category + "/" + read.id
+                        } > View Comments / Edit < /Link>
+                        < /div >
+                        ) : (
+                        < div >
+                        < Link to = {
+                            readType + "/" + read.id
+                        } > View Comments / Edit < /Link>
+                        < /div >)} < /MediaObjectSection> < /MediaObject> < /li>
                 ))
             } < /ul>
             < /div>
@@ -194,7 +215,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         submitPost: (data) => dispatch(addPost(data)),
-        submitComment: (data) => dispatch(addComment(data))
+        submitComment: (data) => dispatch(addComment(data)),
+        changeFilterCategory: (data) => dispatch(changeFilter(data)),
     }
 }
 

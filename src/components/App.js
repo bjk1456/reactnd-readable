@@ -53,19 +53,23 @@ class App extends React.Component {
             component = {
                 CreateRead
             }
+            /> < Route exact path = "/:category"
+            component = {
+                ListReads
+            }
             /> < Route exact path = "/createComment"
             component = {
                 CreateRead
             }
-            /> < Route exact path = "/post/:postId"
+            /> < Route exact path = "/:category/:postId"
             component = {
                 ReadDetail
             }
-            /> < Route exact path = "/post/comment/:commentId"
+            /> < Route exact path = "/:category/comment/:commentId"
             component = {
                 ReadDetail
             }
-            /> < /div>
+            /> </div>
         );
     }
 }

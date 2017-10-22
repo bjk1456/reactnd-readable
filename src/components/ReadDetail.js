@@ -13,15 +13,12 @@ import '.././App.css';
 import * as ReadsAPI from '../utils/ReadsAPI'
 
 class ReadDetail extends React.Component {
-
     state = {
         id: "",
-
     }
 
     componentDidMount() {
         if (this.props.match.params.postId) {
-
             this.setState({
                 id: this.props.match.params.postId
             })
@@ -30,7 +27,6 @@ class ReadDetail extends React.Component {
                 id: this.props.match.params.commentId
             })
         }
-
     }
 
     componentWillReceiveProps(newProps) {
@@ -42,25 +38,26 @@ class ReadDetail extends React.Component {
     }
 
     render() {
-
-        var post = null;
-        var postFound = false;
-        var readType = "";
+        let post = null;
+        let postFound = false;
+        let readType = "";
 
         if (this.props.match.params.postId) {
             readType = "post";
-            for (var key in this.props.posts) {
+            for (let key in this.props.posts) {
                 if (this.props.posts[key]['id'] === this.props.match.params.postId) {
                     post = this.props.posts[key];
                     if (post.deleted === false) {
                         post.title = key
-                        postFound = true;
+                        if(this.props.match.params.category === post.category) {
+                            postFound = true;
+                        }
                     }
                 }
             }
         } else if (this.props.match.params.commentId) {
             readType = "comment";
-            for (var key in this.props.comments) {
+            for (let key in this.props.comments) {
                 if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
                     post = this.props.comments[key];
                     if (post.deleted === false) {
@@ -73,13 +70,13 @@ class ReadDetail extends React.Component {
         }
 
         if (postFound === true) {
-            var postId = null;
+            let postId = null;
             if (this.props.match.params.postId) {
                 postId = this.props.match.params.postId
             } else if (this.props.match.params.commentId) {
                 postId = this.props.match.params.commentId;
             }
-            return ( < div >
+            return ( <div>
                 < CreateRead postId = {
                     postId
                 }
@@ -90,10 +87,10 @@ class ReadDetail extends React.Component {
                     readType
                 }
                 /> {
-                readType === "post" ? ( < div >
+                readType === "post" ? ( <div>
                     < hr width = "300" / >
                     < ListReads readType = "comment" readId = {postId} / >
-                    < div >
+                    <div>
                     < hr width = "300" / >
                     < label > Create a Comment: < /label> < CreateRead editRead = {
                     false
@@ -104,8 +101,8 @@ class ReadDetail extends React.Component {
                 parentId = {
                     postId
                 }
-                /> < /div > < /div>
-            ): ( < div > < /div>)} < /div > )
+                /> < /div > </div>
+            ): ( <div> < /div>)} < /div > )
         } else {
             return (null)
         }
