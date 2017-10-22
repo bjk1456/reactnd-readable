@@ -14,6 +14,13 @@ BEFORE STARTING THE APPLICATION YOU MUST ADD:
 ```
 to the categories in the categories.js file inside the server that's inside the reactnd-project-readable-starter package.
 
+A seperate server project needs to be cloned at https://github.com/udacity/reactnd-project-readable-starter. Once the server is cloned install and start the API server with the following commands:
+
+    cd api-server
+    npm install
+    node server
+
+
 Inside of the project root directory run the command 'yarn start' in order to begin hosting the project. Within 1 minute a new window will open up inside of your start default web browser. The program will run on localhost with a port number of 3000. 
 
 At the very top of the page is the label "Categores:" with buttons to the immediate right. These are used for sorting by category and specifying the category of a new post when you create one. Click on one to invoke it. To remove the filter click the "all" button.
