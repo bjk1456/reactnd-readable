@@ -29,39 +29,6 @@ class ListCats extends Component {
         selectCategory: PropTypes.func.isRequired
     }
 
-    componentDidMount() {
-        ReadsAPI.getAllPosts().then((posts) => {
-            posts.map((post) => {
-                this.props.submitPost({
-                    title: post['title'],
-                    author: post['author'],
-                    body: post['body'],
-                    id: post['id'],
-                    timestamp: post['timestamp'],
-                    category: post['category'],
-                    voteScore: post['voteScore'],
-                    deleted: post['deleted']
-                })
-                ReadsAPI.getCommentsPost(post['id']).then((comments) => {
-                    comments.map((comment) => {
-                    this.props.submitComment({
-                        title: comment['title'],
-                        author: comment['author'],
-                        body: comment['body'],
-                        id: comment['id'],
-                        timestamp: comment['timestamp'],
-                        category: comment['category'],
-                        voteScore: comment['voteScore'],
-                        deleted: comment['deleted'],
-                        parentDeleted: comment['parentDeleted'],
-                        parentId: comment['parentId']
-                    })
-                })
-              })
-            })
-        })
-    }
-
     handleChangeSort = (event) => {
         this.props.changeSortMethod({
             sortMethod: document.getElementById('selectSort').value

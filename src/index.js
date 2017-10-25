@@ -5,9 +5,11 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import reducer from './reducers'
 import { Provider } from 'react-redux'
+import {loadPosts} from './actions'
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -23,15 +25,19 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   reducer,
   composeEnhancers(
-    applyMiddleware(logger)
+    applyMiddleware(logger),
+    applyMiddleware(thunk)
   )
 )
-
-ReactDOM.render(
-	<BrowserRouter>
-	<Provider store={store}>
-	  <App/>
-	</Provider>
-	</BrowserRouter>,
-	document.getElementById('root'),
-registerServiceWorker());
+store.dispatch(
+  loadPosts()
+).then(() =>
+  ReactDOM.render(
+  <BrowserRouter>
+  <Provider store={store}>
+    <App/>
+  </Provider>
+  </BrowserRouter>,
+  document.getElementById('root'),
+registerServiceWorker())
+)

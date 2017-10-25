@@ -1,3 +1,4 @@
+import * as ReadsAPI from '../utils/ReadsAPI';
 export const ADD_POST = 'ADD_POST'
 export const CHANGE_SORT = 'CHANGE_SORT'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
@@ -46,63 +47,40 @@ export function changeFilter ({ filterCat }) {
       filterCat,
     }
 }
-/**
-export function loadPosts(category) {
-	return (dispatch) => {
-		
-	}
-}
 
-PostsAPI.getPostsCategory(this.props.match.params.cat).then((posts) => {
-  	  if(posts !== undefined) {
-  	    posts.map((post, None) =>
-  	      this.props.submitPost({ title: post['title'], author: post['author'], body: post['body'], id: post['id'], timestamp: post['timestamp'], category: post['category'] }))
-  	}})
-
-
-export function postsFetchData(category) {
-    return (dispatch) => {
-      PostsAPI.getPostsCategory(category).then((posts) => {
-  	    if(posts !== undefined) {
-          dispatch()
-  	      posts.map((post, None) =>
-
-  	  	  console.log("The post is " + post['body']))
-  	  }})
-
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-
-                dispatch(itemsIsLoading(false));
-
-                return response;
+export function loadPosts() {
+  return function(dispatch) {
+    return  ReadsAPI.getAllPosts().then((posts) => {
+            posts.map((post) => {
+                dispatch(addPost({
+                    title: post['title'],
+                    author: post['author'],
+                    body: post['body'],
+                    id: post['id'],
+                    timestamp: post['timestamp'],
+                    category: post['category'],
+                    voteScore: post['voteScore'],
+                    deleted: post['deleted']
+                }))
+                ReadsAPI.getCommentsPost(post['id']).then((comments) => {
+                    comments.map((comment) => {
+                    dispatch(addComment({
+                        title: comment['title'],
+                        author: comment['author'],
+                        body: comment['body'],
+                        id: comment['id'],
+                        timestamp: comment['timestamp'],
+                        category: comment['category'],
+                        voteScore: comment['voteScore'],
+                        deleted: comment['deleted'],
+                        parentDeleted: comment['parentDeleted'],
+                        parentId: comment['parentId']
+                    }))
+                })
+              })
             })
-            .then((response) => response.json())
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch(() => dispatch(itemsHasErrored(true)));
-    };
+        }).catch(error => {
+      throw(error);
+    });
+  }
 }
-
-export function itemsFetchData(url) {
-    return (dispatch) => {
-        dispatch(itemsIsLoading(true));
-
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-
-                dispatch(itemsIsLoading(false));
-
-                return response;
-            })
-            .then((response) => response.json())
-            .then((items) => dispatch(itemsFetchDataSuccess(items)))
-            .catch(() => dispatch(itemsHasErrored(true)));
-    };
-}
-*/
