@@ -15,7 +15,6 @@ import {
     addPost, changeSort, changeFilter, addComment
 }
 from '../actions'
-import * as ReadsAPI from '../utils/ReadsAPI'
 import {
     ButtonGroup,
     Button
@@ -47,7 +46,9 @@ class ListCats extends Component {
         } = this.props
         return ( < div className = "ListCats" > { /* Standard button */ } <div>
             < label > Categories: < /label> < ButtonGroup > {
-            cats.map((cat) => ( < Button key = {
+            cats.map((cat) => ( < Link to = {
+                                cat.name
+                } > < Button key = {
                     cat.name
                 }
                 id = {
@@ -63,7 +64,7 @@ class ListCats extends Component {
                     cat.name === selectedCat
                 } > {
                     cat.name
-                } < /Button>
+                } < /Button> < /Link>
             ))
         } < /ButtonGroup>  <div> <div> < Link to = "/createPost" > Create Post < /Link>  <div> < label > Sort Method: < /label > </div> <div> < select id = "selectSort"
         onChange = {

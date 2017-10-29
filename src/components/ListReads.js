@@ -17,10 +17,6 @@ import {
     MediaObject, MediaObjectSection
 }
 from 'react-foundation';
-import {
-    Thumbnail
-}
-from 'react-foundation';
 import TiThumbsUp from 'react-icons/lib/ti/thumbs-up';
 import TiThumbsDown from 'react-icons/lib/ti/thumbs-down';
 import TiDelete from 'react-icons/lib/ti/delete';
@@ -31,18 +27,10 @@ class ListReads extends React.Component {
         readType: PropTypes.string,
         readId: PropTypes.string
     }
-
     componentDidMount() {
-        if((this.props.match) && (this.props.match.params.category)){
-            this.props.changeFilterCategory({
-                filterCat: this.props.match.params.category
-            })
-        }
-        else{
-            this.props.changeFilterCategory({
-            filterCat: "all"
-        })
-        }
+        ((this.props.match) && (this.props.match.params.category)) ? 
+        this.props.changeFilterCategory({filterCat: this.props.match.params.category})
+        : this.props.changeFilterCategory({filterCat: "all"})
     }
     handleUpVote = (event, readType, read) => {
         read.voteScore += 1;
@@ -80,7 +68,6 @@ class ListReads extends React.Component {
     renderNumComments(readType, readId) {
         if( readType === "post") {
         var numComments = 0;
-        console.log("this.props.comments === ", this.props.comments)
         for (let key in this.props.comments) {
             if (this.props.comments[key]['parentId'] === readId) {
                 numComments += 1;
@@ -91,7 +78,7 @@ class ListReads extends React.Component {
             < div > < label >Num Comments: {numComments}< /label > < /div > : null);
     }
 
-    render() {
+    getReads(){
         let {
             readType
         } = this.props
@@ -107,7 +94,7 @@ class ListReads extends React.Component {
             }
         } else {
             readType = "post"
-            reads = this.props.posts;
+            reads = this.props.post;
         }
         for (let key in reads) {
             let post = reads[key];
@@ -121,9 +108,13 @@ class ListReads extends React.Component {
                 readsToDsply.push(post);
             }
         }
+        return readsToDsply;
 
-        let sortMeth = this.props.sortMethod['sortMethod'];
-        readsToDsply.sort((a, b) => {
+    }
+
+    filterSort(reads){
+        let sortMeth = this.props.sort['sortMethod'];
+        reads.sort((a, b) => {
             if (sortMeth === "voteScore") {
                 return b.voteScore - a.voteScore;
             }
@@ -131,12 +122,22 @@ class ListReads extends React.Component {
                 return b.timestamp - a.timestamp;
             }
         })
-        let filterCat = this.props.filterCategory['filterCat'];
+        let filterCat = this.props.filter['filterCat'];
         if (filterCat !== "all") {
-            readsToDsply = readsToDsply.filter((post) => {
+            reads = reads.filter((post) => {
                 return post.category === filterCat;
             })
         }
+        return reads;
+    }
+
+    render() {
+        let {
+            readType
+        } = this.props
+        let rawReads = this.getReads();
+        let readsToDsply = this.filterSort(rawReads)
+
 
         return (
             < div className = 'list-posts' >
@@ -203,13 +204,8 @@ class ListReads extends React.Component {
     }
 }
 
-function mapStateToProps(state, props) {
-    return Object.assign({}, props, {
-        posts: state.post,
-        comments: state.comment,
-        sortMethod: state.sort,
-        filterCategory: state.filter,
-    });
+function mapStateToProps({post, comment, sort, filter}) {
+    return {post, comment, sort, filter}
 }
 
 function mapDispatchToProps(dispatch) {

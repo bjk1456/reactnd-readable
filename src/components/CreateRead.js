@@ -64,9 +64,9 @@ class CreateRead extends React.Component {
             }
         }
         if ((editRead) && (readType === "comment")) {
-            for (var key in this.props.comments) {
+            for (key in this.props.comments) {
                 if (this.props.comments[key]['id'] === postId) {
-                    var post = this.props.comments[key];
+                    post = this.props.comments[key];
                     this.setState({
                         title: "I am a comment"
                     })

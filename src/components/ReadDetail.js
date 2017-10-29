@@ -6,11 +6,10 @@ import {
 }
 from 'react-redux'
 import {
-    addPost, addComment
+    addPost
 }
 from '../actions'
 import '.././App.css';
-import * as ReadsAPI from '../utils/ReadsAPI'
 
 class ReadDetail extends React.Component {
     state = {
@@ -37,36 +36,55 @@ class ReadDetail extends React.Component {
         }
     }
 
+    handlePost() {
+      let postFound = null;
+      
+            for (let key in this.props.posts) {
+                if (this.props.posts[key]['id'] === this.props.match.params.postId) {
+                    let post = this.props.posts[key];
+                    if (post.deleted === false) {
+                        post.title = key
+                        if(this.props.match.params.category === post.category) {
+                            postFound = post;
+                        }
+                    }
+                }
+            }
+            return postFound;
+    }
+
+    handleComment() {
+      let commentFound = null;
+      for (let key in this.props.comments) {
+        if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
+            let comment = this.props.comments[key];
+            if (comment.deleted === false) {
+              comment.title = key
+              commentFound = comment;
+                          }
+                      }
+                  }
+      return commentFound;
+    }
+
     render() {
         let post = null;
         let postFound = false;
         let readType = "";
 
         if (this.props.match.params.postId) {
-            readType = "post";
-            for (let key in this.props.posts) {
-                if (this.props.posts[key]['id'] === this.props.match.params.postId) {
-                    post = this.props.posts[key];
-                    if (post.deleted === false) {
-                        post.title = key
-                        if(this.props.match.params.category === post.category) {
-                            postFound = true;
-                        }
-                    }
-                }
+            post = this.handlePost()
+            if(post){
+              postFound = true;
+              readType = "post";
             }
+            console.log("post === ", post)
         } else if (this.props.match.params.commentId) {
-            readType = "comment";
-            for (let key in this.props.comments) {
-                if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
-                    post = this.props.comments[key];
-                    if (post.deleted === false) {
-                        post.title = key
-                        postFound = true;
-                    }
-                }
+            post = this.handleComment();
+            if(post){
+              postFound = true;
+              readType = "comment";  
             }
-
         }
 
         if (postFound === true) {
@@ -104,9 +122,10 @@ class ReadDetail extends React.Component {
                 /> < /div > </div>
             ): ( <div> < /div>)} < /div > )
         } else {
-            return (null)
-        }
-    }
+     return ( < div >
+      < h3 > 404 page not found < /h3> < p > We are sorry but the component you are looking
+      for does not exist. < /p> < /div>) }
+     }
 }
 
 function mapStateToProps(state, props) {

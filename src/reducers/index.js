@@ -1,82 +1,8 @@
 import { combineReducers } from 'redux'
-
-
-import {
-  ADD_POST,
-  CHANGE_SORT,
-  CHANGE_FILTER,
-  ADD_COMMENT,
-} from '../actions'
-
-function post (state = {}, action) {
-  const { title, author, body, id, timestamp, category, voteScore, deleted } = action
-  switch (action.type) {
-    case ADD_POST :
-      return {
-        ...state,
-        [title] : {
-        	author,
-        	body,
-        	id,
-            timestamp,
-            category,
-            voteScore,
-            deleted,
-        }
-      }
-    default :
-        return state;
-    }
-  }
-
- function comment (state = {}, action) {
-  const { author, body, id, timestamp, category, voteScore, deleted, parentDeleted, parentId } = action
-  switch (action.type) {
-    case ADD_COMMENT :
-      return {
-        ...state,
-        [id] : {
-        	author,
-        	body,
-            timestamp,
-            category,
-            voteScore,
-            deleted,
-            parentDeleted,
-            parentId,
-            id,
-        }
-      }
-    default :
-        return state;
-    }
-  }
-
-function sort (state = {sortMethod: "voteScore"}, action) {
-  const { sortMethod } = action
-  switch (action.type) {
-    case CHANGE_SORT :
-     return {
-     	...state,
-     	  sortMethod,   
-     }
- default :
-  return state;
- }
-}
-
-function filter (state = {filterCat: "all"}, action) {
-  const { filterCat } = action
-  switch (action.type) {
-    case CHANGE_FILTER :
-     return {
-     	...state,
-     	  filterCat,   
-     }
- default :
-  return state;
- }
-}
+import {post} from './postReducer'; 
+import {filter} from './filterReducer'; 
+import {comment} from './commentReducer'; 
+import {sort} from './sortReducer'; 
 
 export default combineReducers({
   post,

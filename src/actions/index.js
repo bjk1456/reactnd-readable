@@ -1,8 +1,5 @@
 import * as ReadsAPI from '../utils/ReadsAPI';
-export const ADD_POST = 'ADD_POST'
-export const CHANGE_SORT = 'CHANGE_SORT'
-export const CHANGE_FILTER = 'CHANGE_FILTER'
-export const ADD_COMMENT = 'ADD_COMMENT'
+import {ADD_POST, ADD_COMMENT, CHANGE_SORT, CHANGE_FILTER} from './types';
 
 export function addPost ({ title, author, body, id, timestamp, category, voteScore, deleted }) {
   return {
@@ -51,7 +48,7 @@ export function changeFilter ({ filterCat }) {
 export function loadPosts() {
   return function(dispatch) {
     return  ReadsAPI.getAllPosts().then((posts) => {
-            posts.map((post) => {
+            posts.forEach((post) => {
                 dispatch(addPost({
                     title: post['title'],
                     author: post['author'],
@@ -63,7 +60,7 @@ export function loadPosts() {
                     deleted: post['deleted']
                 }))
                 ReadsAPI.getCommentsPost(post['id']).then((comments) => {
-                    comments.map((comment) => {
+                    comments.forEach((comment) => {
                     dispatch(addComment({
                         title: comment['title'],
                         author: comment['author'],
