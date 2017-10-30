@@ -1,45 +1,47 @@
 import React, {
-    Component
+ Component
 }
 from 'react';
 import {
-    Link
+ Link
 }
 from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
-    connect
+ connect
 }
 from 'react-redux'
 import {
-    addPost, changeSort, changeFilter, addComment
+ addPost,
+ changeSort,
+ changeFilter,
+ addComment
 }
 from '../actions'
 import {
-    ButtonGroup,
-    Button
+ ButtonGroup,
+ Button
 }
 from 'reactstrap';
 
 class ListCats extends Component {
-    static propTypes = {
-        cats: PropTypes.array.isRequired,
-        selectedCat: PropTypes.string,
-        selectCategory: PropTypes.func.isRequired
-    }
+ static propTypes = {
+  cats: PropTypes.array.isRequired,
+  selectedCat: PropTypes.string,
+  selectCategory: PropTypes.func.isRequired
+ }
 
-    handleChangeSort = (event) => {
-        this.props.changeSortMethod({
-            sortMethod: document.getElementById('selectSort').value
-        })
-    }
+ handleChangeSort = (event) => {
+  this.props.changeSortMethod({
+   sortMethod: document.getElementById('selectSort').value
+  })
+ }
 
-    handleFilterCategory = (cat) => {
-        this.props.changeFilterCategory({
-            filterCat: cat['cat']['name']
-        })
-    }
-
+ handleFilterCategory = (cat) => {
+  this.props.changeFilterCategory({
+   filterCat: cat['cat']['name']
+  })
+ }
     render() {
         const {
             cats, selectedCat
@@ -77,21 +79,21 @@ class ListCats extends Component {
 }
 
 function mapStateToProps(state, props) {
-    return Object.assign({}, props, {
-        posts: state.post
-    });
+ return Object.assign({}, props, {
+  posts: state.post
+ });
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        submitPost: (data) => dispatch(addPost(data)),
-        changeSortMethod: (data) => dispatch(changeSort(data)),
-        changeFilterCategory: (data) => dispatch(changeFilter(data)),
-        submitComment: (data) => dispatch(addComment(data))
-    }
+ return {
+  submitPost: (data) => dispatch(addPost(data)),
+  changeSortMethod: (data) => dispatch(changeSort(data)),
+  changeFilterCategory: (data) => dispatch(changeFilter(data)),
+  submitComment: (data) => dispatch(addComment(data))
+ }
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+ mapStateToProps,
+ mapDispatchToProps
 )(ListCats)

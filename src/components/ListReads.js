@@ -82,7 +82,7 @@ class ListReads extends React.Component {
         let {
             readType
         } = this.props
-        let readsToDsply = [];
+        let rawReads = [];
         let reads = {};
         let hmnRdDate = new Date();
 
@@ -105,10 +105,10 @@ class ListReads extends React.Component {
             if (post.deleted === false) {
                 hmnRdDate.setTime(new Date(post.timestamp));
                 post.hmnRdDate = hmnRdDate.toUTCString();
-                readsToDsply.push(post);
+                rawReads.push(post);
             }
         }
-        return readsToDsply;
+        return rawReads;
 
     }
 
@@ -135,9 +135,9 @@ class ListReads extends React.Component {
         let {
             readType
         } = this.props
+        readType ? readType = "comment" : readType = "post"
         let rawReads = this.getReads();
         let readsToDsply = this.filterSort(rawReads)
-
 
         return (
             < div className = 'list-posts' >

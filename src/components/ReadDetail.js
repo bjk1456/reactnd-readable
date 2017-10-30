@@ -2,7 +2,7 @@ import React from 'react';
 import ListReads from './ListReads'
 import CreateRead from './CreateRead'
 import {
-    connect
+ connect
 }
 from 'react-redux'
 import {
@@ -12,29 +12,21 @@ from '../actions'
 import '.././App.css';
 
 class ReadDetail extends React.Component {
-    state = {
-        id: "",
-    }
+  state = {
+   id: "",
+  }
 
-    componentDidMount() {
-        if (this.props.match.params.postId) {
-            this.setState({
-                id: this.props.match.params.postId
-            })
-        } else if (this.props.match.params.commentId) {
-            this.setState({
-                id: this.props.match.params.commentId
-            })
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.match.params.postId === this.state.id) {
-            this.setState({
-                id: this.props.match.params.postId
-            })
-        }
-    }
+  componentDidMount() {
+   if (this.props.match.params.postId) {
+    this.setState({
+     id: this.props.match.params.postId
+    })
+   } else if (this.props.match.params.commentId) {
+    this.setState({
+     id: this.props.match.params.commentId
+    })
+   }
+  }
 
     handlePost() {
       let postFound = null;
@@ -86,9 +78,22 @@ class ReadDetail extends React.Component {
               readType = "comment";  
             }
         }
+      else if (this.props.match.params.commentId) {
+     readType = "comment";
+     for (let key in this.props.comments) {
+      if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
+       post = this.props.comments[key];
+       if (post.deleted === false) {
+        post.title = key
+        postFound = true;
+       }
+      }
+     }
+    }
 
         if (postFound === true) {
             let postId = null;
+            console.log("readType == ", readType)
             if (this.props.match.params.postId) {
                 postId = this.props.match.params.postId
             } else if (this.props.match.params.commentId) {
@@ -128,22 +133,22 @@ class ReadDetail extends React.Component {
      }
 }
 
-function mapStateToProps(state, props) {
-    return Object.assign({}, props, {
-        posts: state.post,
-        comments: state.comment,
-        sortMethod: state.sort,
-        filterCategory: state.filter,
-    });
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        submitPost: (data) => dispatch(addPost(data))
+    function mapStateToProps(state, props) {
+     return Object.assign({}, props, {
+      posts: state.post,
+      comments: state.comment,
+      sortMethod: state.sort,
+      filterCategory: state.filter,
+     });
     }
-}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReadDetail)
+    function mapDispatchToProps(dispatch) {
+     return {
+      submitPost: (data) => dispatch(addPost(data))
+     }
+    }
+
+    export default connect(
+     mapStateToProps,
+     mapDispatchToProps
+    )(ReadDetail)
