@@ -66,10 +66,12 @@ class ListReads extends React.Component {
     }
 
     renderNumComments(readType, readId) {
+        console.log("Inside of renderNumComments about to check readType")
         if( readType === "post") {
+        console.log("Inside of renderNumComments readType is post");
         var numComments = 0;
-        for (let key in this.props.comments) {
-            if (this.props.comments[key]['parentId'] === readId) {
+        for (let key in this.props.comment) {
+            if (this.props.comment[key]['parentId'] === readId) {
                 numComments += 1;
                 }
             }
@@ -87,9 +89,9 @@ class ListReads extends React.Component {
         let hmnRdDate = new Date();
 
         if (readType === "comment") {
-            for (let key in this.props.comments) {
-            if (this.props.comments[key]['parentId'] === this.props.readId) {
-                reads[key] =  this.props.comments[key];
+            for (let key in this.props.comment) {
+            if (this.props.comment[key]['parentId'] === this.props.readId) {
+                reads[key] =  this.props.comment[key];
                 }
             }
         } else {
