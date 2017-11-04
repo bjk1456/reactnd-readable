@@ -31,9 +31,9 @@ class ReadDetail extends React.Component {
     handlePost() {
       let postFound = null;
       
-            for (let key in this.props.posts) {
-                if (this.props.posts[key]['id'] === this.props.match.params.postId) {
-                    let post = this.props.posts[key];
+            for (let key in this.props.post) {
+                if (this.props.post[key]['id'] === this.props.match.params.postId) {
+                    let post = this.props.post[key];
                     if (post.deleted === false) {
                         post.title = key
                         if(this.props.match.params.category === post.category) {
@@ -47,9 +47,9 @@ class ReadDetail extends React.Component {
 
     handleComment() {
       let commentFound = null;
-      for (let key in this.props.comments) {
-        if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
-            let comment = this.props.comments[key];
+      for (let key in this.props.comment) {
+        if (this.props.comment[key]['id'] === this.props.match.params.commentId) {
+            let comment = this.props.comment[key];
             if (comment.deleted === false) {
               comment.title = key
               commentFound = comment;
@@ -70,7 +70,6 @@ class ReadDetail extends React.Component {
               postFound = true;
               readType = "post";
             }
-            console.log("post === ", post)
         } else if (this.props.match.params.commentId) {
             post = this.handleComment();
             if(post){
@@ -80,9 +79,9 @@ class ReadDetail extends React.Component {
         }
       else if (this.props.match.params.commentId) {
      readType = "comment";
-     for (let key in this.props.comments) {
-      if (this.props.comments[key]['id'] === this.props.match.params.commentId) {
-       post = this.props.comments[key];
+     for (let key in this.props.comment) {
+      if (this.props.comment[key]['id'] === this.props.match.params.commentId) {
+       post = this.props.comment[key];
        if (post.deleted === false) {
         post.title = key
         postFound = true;
@@ -90,10 +89,8 @@ class ReadDetail extends React.Component {
       }
      }
     }
-
         if (postFound === true) {
             let postId = null;
-            console.log("readType == ", readType)
             if (this.props.match.params.postId) {
                 postId = this.props.match.params.postId
             } else if (this.props.match.params.commentId) {
@@ -133,20 +130,15 @@ class ReadDetail extends React.Component {
      }
 }
 
-    function mapStateToProps(state, props) {
-     return Object.assign({}, props, {
-      posts: state.post,
-      comments: state.comment,
-      sortMethod: state.sort,
-      filterCategory: state.filter,
-     });
-    }
+function mapStateToProps({post, comment}) {
+  return {post, comment}
+}
 
-    function mapDispatchToProps(dispatch) {
-     return {
-      submitPost: (data) => dispatch(addPost(data))
-     }
-    }
+function mapDispatchToProps(dispatch) {
+  return {
+    submitPost: (data) => dispatch(addPost(data))
+  }
+ }
 
     export default connect(
      mapStateToProps,

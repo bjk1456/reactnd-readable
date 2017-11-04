@@ -66,9 +66,7 @@ class ListReads extends React.Component {
     }
 
     renderNumComments(readType, readId) {
-        console.log("Inside of renderNumComments about to check readType")
         if( readType === "post") {
-        console.log("Inside of renderNumComments readType is post");
         var numComments = 0;
         for (let key in this.props.comment) {
             if (this.props.comment[key]['parentId'] === readId) {
