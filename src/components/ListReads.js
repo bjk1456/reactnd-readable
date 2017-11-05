@@ -12,14 +12,11 @@ import {
 }
 from '../actions'
 import '.././App.css';
-import * as ReadsAPI from '../utils/ReadsAPI';
+import ReadTools from './ReadTools';
 import {
     MediaObject, MediaObjectSection
 }
 from 'react-foundation';
-import TiThumbsUp from 'react-icons/lib/ti/thumbs-up';
-import TiThumbsDown from 'react-icons/lib/ti/thumbs-down';
-import TiDelete from 'react-icons/lib/ti/delete';
 import PropTypes from 'prop-types'
 
 class ListReads extends React.Component {
@@ -27,55 +24,11 @@ class ListReads extends React.Component {
         readType: PropTypes.string,
         readId: PropTypes.string
     }
+
     componentDidMount() {
         ((this.props.match) && (this.props.match.params.category)) ? 
         this.props.changeFilterCategory({filterCat: this.props.match.params.category})
         : this.props.changeFilterCategory({filterCat: "all"})
-    }
-    handleUpVote = (event, readType, read) => {
-        read.voteScore += 1;
-        if (readType === "post") {
-            this.props.submitPost(read)
-            ReadsAPI.vote(read.id, "posts", "upVote").then(() => {})
-        } else if (readType === "comment") {
-            this.props.submitComment(read)
-            ReadsAPI.vote(read.id, "comments", "upVote").then(() => {})
-        }
-    }
-
-    handleDownVote = (event, readType, read) => {
-        read.voteScore -= 1
-        if (readType === "post") {
-            this.props.submitPost(read)
-            ReadsAPI.vote(read.id, "posts", "upVote").then(() => {})
-        } else if (readType === "comment") {
-            this.props.submitComment(read)
-            ReadsAPI.vote(read.id, "comments", "upVote").then(() => {})
-        }
-    }
-
-    handleDelete = (readType, read) => {
-        read.deleted = "true";
-        if (readType === "post") {
-            this.props.submitPost(read)
-            ReadsAPI.deleteRead(read.id, "posts").then(() => {})
-        } else if (readType === "comment") {
-            this.props.submitComment(read)
-            ReadsAPI.deleteRead(read.id, "comments").then(() => {})
-        }
-    }
-
-    renderNumComments(readType, readId) {
-        if( readType === "post") {
-        var numComments = 0;
-        for (let key in this.props.comment) {
-            if (this.props.comment[key]['parentId'] === readId) {
-                numComments += 1;
-                }
-            }
-        }
-        return ( readType === "post" ? 
-            < div > < label >Num Comments: {numComments}< /label > < /div > : null);
     }
 
     getReads(){
@@ -153,37 +106,7 @@ class ListReads extends React.Component {
                     } < /h6> < p > {
                         read.body
                     } < /p> < /MediaObjectSection> < MediaObjectSection isBottom >
-                    < button className = 'icon-btn'
-                    onClick = {
-                        (event) =>
-                        this.handleUpVote(event, readType, read)
-                    } >
-                    < TiThumbsUp size = {
-                        30
-                    }
-                    /> < /button> < button className = 'icon-btn'
-                    onClick = {
-                        (event) =>
-                        this.handleDownVote(event, readType, read)
-                    } >
-                    < TiThumbsDown size = {
-                        30
-                    }
-                    /> < /button> < label > Total Score: {
-                        read.voteScore
-                    } < /label> < div >
-                    < button className = 'icon-btn'
-                    onClick = {
-                        (event) =>
-                        this.handleDelete(readType, read)
-                    } >
-                    < TiDelete size = {
-                        30
-                    }
-                    /> < /button> < label > timestamp: {
-                        read.hmnRdDate
-                    } < /label> < /div> 
-                    { this.renderNumComments(readType, read.id) }  
+                    <ReadTools read={read} readType={readType}/>
                     {
                     readType === "post" ? (
                         < div > 
@@ -196,7 +119,8 @@ class ListReads extends React.Component {
                         < Link to = {
                             readType + "/" + read.id
                         } > View Comments / Edit < /Link>
-                        < /div >)} < /MediaObjectSection> < /MediaObject> < /li>
+                        < /div >)} < /MediaObjectSection> < /MediaObject> 
+                        < /li>
                 ))
             } < /ul>
             < /div>
