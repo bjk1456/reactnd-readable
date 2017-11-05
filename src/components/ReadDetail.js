@@ -10,6 +10,7 @@ import {
 }
 from '../actions'
 import '.././App.css';
+import ReadTools from './ReadTools';
 
 class ReadDetail extends React.Component {
   state = {
@@ -106,7 +107,9 @@ class ReadDetail extends React.Component {
                 readType = {
                     readType
                 }
-                /> {
+                /> 
+                <ReadTools read={post} readType={readType}/>
+                {
                 readType === "post" ? ( <div>
                     < hr width = "300" / >
                     < ListReads readType = "comment" readId = {postId} / >
