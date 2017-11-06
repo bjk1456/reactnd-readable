@@ -26,7 +26,7 @@ class ListReads extends React.Component {
     }
 
     componentDidMount() {
-        ((this.props.match) && (this.props.match.params.category)) ? 
+        ((this.props.match) && (this.props.match.params.category) && (this.props.match.params.category !== "createPost")) ? 
         this.props.changeFilterCategory({filterCat: this.props.match.params.category})
         : this.props.changeFilterCategory({filterCat: "all"})
     }

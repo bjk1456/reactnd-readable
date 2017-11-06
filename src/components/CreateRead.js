@@ -165,9 +165,10 @@ class CreateRead extends React.Component {
             return;
         }
         
-        if (((this.props.editRead !== true) && (this.props.filter['filterCat'] === "all") && (this.props.readType === "post")) ||
+        if (((this.props.editRead !== true) && (this.props.filter['filterCat'] === "all") && (this.props.location) &&
+            (this.props.location.pathname === "/createPost")) ||
             ((this.props.location) && (this.props.location.pathname === "/createPost") && (this.props.filter['filterCat'] === "all"))) {
-            window.alert("Click on a category from above: ");
+            window.alert("Click on a category from above ");
             return;
         }
     
@@ -178,7 +179,6 @@ class CreateRead extends React.Component {
         this.state.id ? id = this.state.id : id = uuidv4();
         if (this.props.editRead !== true) {
             category = this.props.filter['filterCat'];
-            console.log("Inside of CreateRead.js ... category === ", category)
         } else {
             category = this.props.editRead.category;
         }
@@ -210,7 +210,7 @@ class CreateRead extends React.Component {
             if (this.props.editRead) {
                 ReadsAPI.updatePost(id, this.state.title, this.state.body);
             } else {
-                ReadsAPI.post(this.state.title, this.state.author, this.state.body, id, date, this.props.category).then(() => {})
+                ReadsAPI.post(this.state.title, this.state.author, this.state.body, id, date, category).then(() => {})
             }
         }
 
@@ -221,8 +221,7 @@ class CreateRead extends React.Component {
             deleted: "",
             parentDeleted: "",
             parentId: "",
-        });
-        
+        })
         const history = createHistory()
         history.push('/');
         window.location.reload()
@@ -247,7 +246,12 @@ class CreateRead extends React.Component {
     }
 
     render() {
-        return ( < fieldset >
+        return (
+        ((this.props.readType !== "comment") && (this.props.editRead !== true) && (this.props.filter['filterCat'] === "all")) ? 
+            ( < div >
+      < h3 > 404 Click on a category from above < /h3> < p > We are sorry but before you create a post you must select a category for it.
+       < /p> < /div>) : (
+            < fieldset >
             < legend > {
                 this.props.readType
             }: < /legend>
@@ -292,7 +296,7 @@ class CreateRead extends React.Component {
             < Button onClick = {
                 this.handlePostSubmit
             } > Submit < /Button> < /fieldset >
-
+            )
         )
     }
 }
